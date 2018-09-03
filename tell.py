@@ -2,8 +2,7 @@ import os, sys, re, fire
 
 import random
 
-
-first_lines = [("Alice's Adventures in Wonderland"), """Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do: once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it, 'and what is the use of a book,' thought Alice 'without pictures or conversations?'""",
+first_lines = [("Alice's Adventures in Wonderland", """Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do: once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it, 'and what is the use of a book,' thought Alice 'without pictures or conversations?'"""),
 ("Peter Pan", """All children, except one, grow up."""),
 ("Aesop's Fables", """A BAT who fell upon the ground and was caught by a Weasel pleaded to be spared his life."""),
 ("Aesop's Fables", """A FATHER had a family of sons who were perpetually quarreling among themselves."""),
@@ -12,11 +11,11 @@ first_lines = [("Alice's Adventures in Wonderland"), """Alice was beginning to g
 ("The Scarlet Letter", """A throng of bearded men, in sad-coloured garments and grey steeple-crowned hats, inter-mixed with women, some wearing hoods, and others bareheaded, was assembled in front of a wooden edifice, the door of which was heavily timbered with oak, and studded with iron spikes."""),
 ("The Time Machine","""The Time Traveller (for so it will be convenient to speak of him) was expounding a recondite matter to us. """),
 ("The War of the Worlds","""No one would have believed in the last years of the nineteenth century that this world was being watched keenly and closely by intelligences greater than man's and yet as mortal as his own."""),
-("A Christmas Carol", """MARLEY was dead: to begin with. There is no doubt whatever about that."""),
 ("The Marvelous Land of Oz", """In the Country of the Gillikins, which is at the North of the Land of Oz, lived a youth called Tip."""),
 ("Moby Dick", """Some years ago -- never mind how long precisely -- having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world. """),
 ("The Red House Mystery by A. A. Milne", """In the drowsy heat of the summer afternoon the Red House was taking its siesta. """),
-
+("A Princess of Mars","""I am a very old man; how old I do not know.  Possibly I am a hundred, possibly more; but I cannot tell because I have never aged as other men, nor do I remember any childhood.  So far as I can recollect I have always been a man, a man of about thirty. """),
+("A Connecticut Yankee in King Arthur's Court","""It was in Warwick Castle that I came across the curious stranger whom I am going to talk about.  He attracted me by three things: his candid simplicity, his marvelous familiarity with ancient armor, and the restfulness of his company--for he did all the talking."""),
 ]
 first_verses = [("The Hunting of the Snark", """     "Just the place for a Snark!" the Bellman cried,
           As he landed his crew with care;
@@ -69,7 +68,12 @@ random_lines = [("Peter Pan","""He had his position in the city to consider.""")
 """),
 ("The Wizard of Oz","""The sky was darkened, and a low rumbling sound was heard in the air."""),
 ("The Wizard of Oz","""But the wicked creature was very cunning, and she finally thought of a trick that would give her what she wanted. """),
+("A Christmas Carol",""""I want nothing from you; I ask nothing of you; why cannot we be friends?" """),
+("A Christmas Carol",""""Are there no prisons?" asked Scrooge."""),
+]
 
+dialogue = [("A Connecticut Yankee in King Arthur's Court", """"You know about transmigration of souls; do you know about
+transposition of epochs--and bodies?" """),
 ]
 
 ribald_lines = [("The Time Machine", "'What a treat it is to stick a fork into meat again!'"),
@@ -83,6 +87,7 @@ concluding_lines = [("Peter Pan","""Our last glimpse of her shows her at the win
 ("Dracula","""Later on he will understand how some men so loved her, that they did dare much for her sake."""),
 ("Frankenstein","""He was soon borne away by the waves and lost in darkness and distance."""),
 ("Madame Bovary","""He now has more patients than the devil himself could handle; the authorities treat him with deference and public opinion supports him. He has just been awarded the Cross of the Legion of Honor."""),
+("A Princess of Mars", """I believe that they are waiting there for me, and something tells me that I shall soon know."""),
 ]
 
 def random_story():
@@ -90,7 +95,7 @@ def random_story():
     used = [first_line]
     print(first_line) 
 
-    other_lines = verses + wonderland_lines + random_lines
+    other_lines = verses + wonderland_lines + random_lines + dialogue
 
     while random.random() > 0.2 or len(used) < 2:
         next_line = random.choice(other_lines)[1]
