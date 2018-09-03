@@ -45,10 +45,9 @@ random_lines = ["""He had his position in the city to consider.""",
 """All that time the Martians must have been getting ready.""",
 """A boy came running towards me.""",
 """A sudden chill came over me.""",
-"""I saw astonishment giving place to
-horror on the faces of the people about me.""",
+"""I saw astonishment giving place to horror on the faces of the people about me.""",
 """Two large dark-coloured eyes were regarding me steadfastly.""",
-"""I was a battleground of fear and curiosity."""
+"""I was a battleground of fear and curiosity.""",
 """There were shrieks and shouts, and suddenly a mounted policeman came galloping through the confusion with his hands clasped over his head, screaming.""",
 """Perhaps I am a man of exceptional moods.""",
 """At times I suffer from the strangest sense of detachment from myself and the world about me; I seem to watch it all from the outside, from somewhere inconceivably remote, out of time, out of space, out of the stress and tragedy of it all.""",
