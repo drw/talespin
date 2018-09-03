@@ -3,11 +3,7 @@ import os, sys, re
 import random
 
 
-first_lines = ["""Alice was beginning to get very tired of sitting by her sister on the
-bank, and of having nothing to do: once or twice she had peeped into the
-book her sister was reading, but it had no pictures or conversations in
-it, 'and what is the use of a book,' thought Alice 'without pictures or
-conversations?'""",
+first_lines = ["""Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do: once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it, 'and what is the use of a book,' thought Alice 'without pictures or conversations?'""",
 """All children, except one, grow up.""",
 """A BAT who fell upon the ground and was caught by a Weasel pleaded to be spared his life.""",
 """A FATHER had a family of sons who were perpetually quarreling among themselves.""",
@@ -16,13 +12,10 @@ conversations?'""",
 """A throng of bearded men, in sad-coloured garments and grey steeple-crowned hats, inter-mixed with women, some wearing hoods, and others bareheaded, was assembled in front of a wooden edifice, the door of which was heavily timbered with oak, and studded with iron spikes.""",
 """The Time Traveller (for so it will be convenient to speak of him) was expounding a recondite matter to us. """,
 """No one would have believed in the last years of the nineteenth century that this world was being watched keenly and closely by intelligences greater than man's and yet as mortal as his own.""",
-"""MARLEY was dead: to begin with. There is no doubt
-whatever about that.""",
-"""In the Country of the Gillikins, which is at the North of the Land of Oz,
-lived a youth called Tip.""",
+"""MARLEY was dead: to begin with. There is no doubt whatever about that.""",
+"""In the Country of the Gillikins, which is at the North of the Land of Oz, lived a youth called Tip.""",
 """Some years ago -- never mind how long precisely -- having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world. """,
-"""In the drowsy heat of the summer afternoon the Red House was taking its
-siesta. """,
+"""In the drowsy heat of the summer afternoon the Red House was taking its siesta. """,
 
 ]
 first_verses = ["""     "Just the place for a Snark!" the Bellman cried,
@@ -44,15 +37,11 @@ random_lines = ["""He had his position in the city to consider.""",
 """'That is all right,' said the Psychologist.""",
 """The Time Traveller smiled.""",
 """'Why not?' said the Time Traveller.""",
-"""'To discover a society,' said I, 'erected on a strictly communistic
-basis.'""",
-"""The Psychologist recovered from his stupor, and suddenly looked
-under the table. """,
+"""'To discover a society,' said I, 'erected on a strictly communistic basis.'""",
+"""The Psychologist recovered from his stupor, and suddenly looked under the table. """,
 """At that the Time Traveller laughed cheerfully.""",
 """'"Communism," said I to myself.""",
-"""The planet Mars, I scarcely need remind the reader, revolves about the
-sun at a mean distance of 140,000,000 miles, and the light and heat it
-receives from the sun is barely half of that received by this world.""",
+"""The planet Mars, I scarcely need remind the reader, revolves about the sun at a mean distance of 140,000,000 miles, and the light and heat it receives from the sun is barely half of that received by this world.""",
 """All that time the Martians must have been getting ready.""",
 """A boy came running towards me.""",
 """A sudden chill came over me.""",
@@ -60,22 +49,14 @@ receives from the sun is barely half of that received by this world.""",
 horror on the faces of the people about me.""",
 """Two large dark-coloured eyes were regarding me steadfastly.""",
 """I was a battleground of fear and curiosity."""
-"""There were shrieks and shouts, and
-suddenly a mounted policeman came galloping through the confusion with
-his hands clasped over his head, screaming.""",
+"""There were shrieks and shouts, and suddenly a mounted policeman came galloping through the confusion with his hands clasped over his head, screaming.""",
 """Perhaps I am a man of exceptional moods.""",
-"""At times I suffer from the strangest sense of
-detachment from myself and the world about me; I seem to watch it all
-from the outside, from somewhere inconceivably remote, out of time,
-out of space, out of the stress and tragedy of it all.""",
-"""I saw my neighbour gardening, chatted with him for a time, and then
-strolled in to breakfast.""",
+"""At times I suffer from the strangest sense of detachment from myself and the world about me; I seem to watch it all from the outside, from somewhere inconceivably remote, out of time, out of space, out of the stress and tragedy of it all.""",
+"""I saw my neighbour gardening, chatted with him for a time, and then strolled in to breakfast.""",
 """And this Thing I saw!  How can I describe it?""",
 """That night I had come to the fatal cross-roads. """,
-"""The Guardian of the Gate at once came out and looked at them curiously, as
-if a circus had come to town.""",
-""""In an emergency," he announced, "it is always a good thing to pause and
-reflect. Please excuse me while I pause and reflect." """,
+"""The Guardian of the Gate at once came out and looked at them curiously, as if a circus had come to town.""",
+""""In an emergency," he announced, "it is always a good thing to pause and reflect. Please excuse me while I pause and reflect." """,
 """Very carefully he began sprinkling the Thing with the precious powder.""",
 """"That is because you have no brains" answered the girl.""",
 """"Who are you and where are you going?" asked the Stork.""",
@@ -88,7 +69,7 @@ reflect. Please excuse me while I pause and reflect." """,
 "Ziz-zy, zuz-zy, zik!"
 """,
 """The sky was darkened, and a low rumbling sound was heard in the air.""",
-"""But the wicked creature was very cunning, and she finally thought of a trick that would give her what she wanted.  """,
+"""But the wicked creature was very cunning, and she finally thought of a trick that would give her what she wanted. """,
 
 ]
 
