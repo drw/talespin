@@ -1,4 +1,4 @@
-import os, sys, re
+import os, sys, re, fire
 
 import random
 
@@ -85,18 +85,25 @@ concluding_lines = ["""Our last glimpse of her shows her at the window, watching
 """He now has more patients than the devil himself could handle; the authorities treat him with deference and public opinion supports him. He has just been awarded the Cross of the Legion of Honor.""",
 ]
 
-first_line = random.choice(first_lines)
-used = [first_line]
-print(first_line) 
+def random_story():
+    first_line = random.choice(first_lines)
+    used = [first_line]
+    print(first_line) 
 
-other_lines = verses + wonderland_lines + random_lines
+    other_lines = verses + wonderland_lines + random_lines
 
-while random.random() > 0.2 or len(used) < 2:
-    next_line = random.choice(other_lines)
-    if next_line not in used:
-        print(next_line)
-        used.append(next_line)
+    while random.random() > 0.2 or len(used) < 2:
+        next_line = random.choice(other_lines)
+        if next_line not in used:
+            print(next_line)
+            used.append(next_line)
 
-conclusion = random.choice(concluding_lines)
-print(conclusion)
-used.append(conclusion)
+    conclusion = random.choice(concluding_lines)
+    print(conclusion)
+    used.append(conclusion)
+
+if __name__ == '__main__':
+    if len(sys.argv) == 1:
+        random_story()
+    else:
+        fire.Fire()
