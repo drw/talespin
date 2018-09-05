@@ -1,6 +1,7 @@
-import os, sys, re, fire
+import os, sys, re, fire, textwrap
 
 import random
+from pprint import pprint
 
 first_lines = [("Alice's Adventures in Wonderland", """Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do: once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it, 'and what is the use of a book,' thought Alice 'without pictures or conversations?'"""),
 ("Peter Pan", """All children, except one, grow up."""),
@@ -106,6 +107,29 @@ def random_story():
     conclusion = random.choice(concluding_lines)[1]
     print(conclusion)
     used.append(conclusion)
+
+def interactive():
+    used, _ = choose_line([], random.sample(first_lines,4), 'interactive')
+
+    other_lines = verses + wonderland_lines + random_lines + dialogue + abstractions
+
+    while random.random() > 0.3 or len(used) < 2:
+        used, chosen_tup = choose_line(used, random.sample(other_lines,5), 'interactive')
+        other_lines.remove(chosen_tup)
+        next_line = random.choice(other_lines)[1]
+
+    used, _ = choose_line(used, random.sample(concluding_lines,4), 'interactive')
+
+    print("The finished story:\n")
+    print(textwrap.fill(used[0],80)+"\n")
+    paragraph = ""
+    for line in used[1:-1]:
+        paragraph += line.strip() + " "
+    print(textwrap.fill(paragraph,80)+"\n")
+    print(textwrap.fill(used[-1],80)+"\n")
+
+def i():
+    interactive()
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:
