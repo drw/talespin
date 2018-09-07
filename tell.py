@@ -177,6 +177,15 @@ def random_story():
     print(conclusion)
     used.append(conclusion)
 
+def build_paragraph(sentences):
+    paragraph = ""
+    k = 0
+    while len(paragraph) == 0 or (k < len(sentences) and sentences[k][0] != '"'):
+        line = sentences[k]
+        paragraph += line.strip() + " "
+        sentences.remove(line)
+    return paragraph, sentences
+
 def interactive():
     used, _ = choose_line([], random.sample(first_lines,4), 'interactive')
 
@@ -190,12 +199,17 @@ def interactive():
     used, _ = choose_line(used, random.sample(concluding_lines,4), 'interactive')
 
     print("The finished story:\n")
-    print(textwrap.fill(used[0],80)+"\n")
-    paragraph = ""
-    for line in used[1:-1]:
-        paragraph += line.strip() + " "
-    print(textwrap.fill(paragraph,80)+"\n")
-    print(textwrap.fill(used[-1],80)+"\n")
+    print(textwrap.fill(used[0],60, initial_indent = "    ") +"\n")
+    #paragraph = ""
+    #for line in used[1:-1]:
+    #    paragraph += line.strip() + " "
+    #print(textwrap.fill(paragraph,60, initial_indent = "    ")+"\n")
+    sentences = used[1:-1] 
+    while len(sentences) > 0:
+        paragraph, sentences = build_paragraph(sentences)
+        print(textwrap.fill(paragraph,60, initial_indent = "    ")+"\n")
+
+    print(textwrap.fill(used[-1],60, initial_indent = "    ")+"\n")
 
 def i():
     interactive()
