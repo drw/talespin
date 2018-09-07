@@ -191,11 +191,14 @@ def choose_line(used,options,mode='random'):
     return used, tup
 
 def random_story():
-    first_line = random.choice(first_lines)[1]
+    table = get_table(db_file)
+    initial_lines = list(table.find(position='first') )
+    #first_line = random.choice(first_lines)[1]
+    first_line = random.choice(initial_lines)['line']
     used = [first_line]
     print(first_line) 
 
-    other_lines = verses + wonderland_lines + random_lines + dialogue + abstractions
+    other_lines = verses + random_lines + dialogue + abstractions
 
     while random.random() > 0.2 or len(used) < 2:
         next_line = random.choice(other_lines)[1]
@@ -219,7 +222,7 @@ def build_paragraph(sentences):
 def interactive():
     used, _ = choose_line([], random.sample(first_lines,4), 'interactive')
 
-    other_lines = verses + wonderland_lines + random_lines + dialogue + abstractions
+    other_lines = verses + random_lines + dialogue + abstractions
 
     while random.random() > 0.3 or len(used) < 2:
         used, chosen_tup = choose_line(used, random.sample(other_lines,5), 'interactive')
