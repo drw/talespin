@@ -130,12 +130,42 @@ concluding_lines = [("Peter Pan","""Our last glimpse of her shows her at the win
 ("A Princess of Mars", """I believe that they are waiting there for me, and something tells me that I shall soon know."""),
 ]
 
+def choose_line(used,options,mode='random'):
+    if mode == 'random':
+        tup = random.choice(options)
+    elif mode == 'interactive':
+        prompt = "Choose an option:\n"
+        for k,option in enumerate(options):
+            prompt += "{}) {}\n".format(k+1,option[1])
+        number = None
+        k_max = len(options)
+        while number not in range(1,k_max+1):
+            try:
+                keyed_in = input(prompt)
+                number = int(keyed_in)
+            except:
+                print("{} is not a number between 1 and {}".format(keyed_in,k_max))
+        tup = options[number-1]
+    else:
+        raise ValueError("choose_line has not been programmed to handle mode {} yet.".format(mode))
+
+    line = tup[1]
+    used.append(line)
+    # Print the first line and then the last couple:
+    #print(used[0])
+    #if len(used) > 2:
+    #    print(used[-2])
+    #if len(used) > 1:
+    #    print(used[-1])
+    print(textwrap.fill(line, width = 60, initial_indent="  > ", subsequent_indent="  > "))
+    return used, tup
+
 def random_story():
     first_line = random.choice(first_lines)[1]
     used = [first_line]
     print(first_line) 
 
-    other_lines = verses + wonderland_lines + random_lines + dialogue
+    other_lines = verses + wonderland_lines + random_lines + dialogue + abstractions
 
     while random.random() > 0.2 or len(used) < 2:
         next_line = random.choice(other_lines)[1]
