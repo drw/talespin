@@ -62,24 +62,62 @@ random_lines = [("Peter Pan","""He had his position in the city to consider.""")
 ("The Wizard of Oz",""""Who are you and where are you going?" asked the Stork."""),
 ("The Wizard of Oz","""They came from all directions, and there were thousands of them: big mice and little mice and middle-sized mice; and each one brought a piece of string in his mouth."""),
 ("The Wizard of Oz","""The road was smooth and well paved, now, and the country about was beautiful, so that the travelers rejoiced in leaving the forest far behind, and with it the many dangers they had met in its gloomy shades."""),
-"""As they walked on, the green glow became brighter and brighter, and it seemed that at last they were nearing the end of their travels.""",
-("The Wizard of Oz",""""Where did you get the mark upon your forehead?" continued the voice.""",
-"""After this she stood upon both feet and cried in a loud voice:
+("The Wizard of Oz","""As they walked on, the green glow became brighter and brighter, and it seemed that at last they were nearing the end of their travels."""),
+("The Wizard of Oz",""""Where did you get the mark upon your forehead?" continued the voice."""),
+("The Wizard of Oz","""After this she stood upon both feet and cried in a loud voice:
 
 "Ziz-zy, zuz-zy, zik!"
 """),
 ("The Wizard of Oz","""The sky was darkened, and a low rumbling sound was heard in the air."""),
 ("The Wizard of Oz","""But the wicked creature was very cunning, and she finally thought of a trick that would give her what she wanted. """),
-("A Christmas Carol",""""I want nothing from you; I ask nothing of you; why cannot we be friends?" """),
-("A Christmas Carol",""""Are there no prisons?" asked Scrooge."""),
+("A Connecticut Yankee in King Arthur's Court", """He caught himself nodding, now, and smiled one of those pathetic, obsolete smiles of his, and said: """),
+("A Connecticut Yankee in King Arthur's Court", """The moment I got a chance I slipped aside privately and touched an ancient common looking man on the shoulder and said, in an insinuating, confidential way: """),
+("A Connecticut Yankee in King Arthur's Court", """I sat down by my fire and examined my treasure. """),
+("A Connecticut Yankee in King Arthur's Court", """There were people, too; brawny men, with long, coarse, uncombed hair that hung down over their faces and made them look like animals. """),
+("A Christmas Carol", "A smell like an eating-house and a pastrycook's next door to each other, with a laundress's next door to that!"),
+("A Christmas Carol", """Quiet and dark, beside him stood the Phantom, with its outstretched hand. """),
+("A Connecticut Yankee in King Arthur's Court", """I was not the only prisoner present.  There were twenty or more."""),
+("A Connecticut Yankee in King Arthur's Court", """Everybody discussed me; and did it as unconcernedly as if I had been a cabbage."""),
+("A Connecticut Yankee in King Arthur's Court", """It was the only compliment I got -- if it was a compliment."""),
+("A Connecticut Yankee in King Arthur's Court", """I was shoved into a dark and narrow cell in a dungeon, with some scant remnants for dinner, some moldy straw for a bed, and no end of rats for company."""),
+("A Connecticut Yankee in King Arthur's Court", """It was pitiful to see a creature so terrified, so unnerved, so demoralized."""),
+("A Connecticut Yankee in King Arthur's Court", """Presently this thought occurred to me: how heedless I have been!"""),
+("A Connecticut Yankee in King Arthur's Court", """I worried over that heedless blunder for an hour, and called myself a great many hard names, meantime."""),
+("A Connecticut Yankee in King Arthur's Court", """I was in trouble again; in the deepest kind of trouble..."""),
+("A Connecticut Yankee in King Arthur's Court", """You see, it was the eclipse.  It came into my mind in the nick of time, how Columbus, or Cortez, or one of those people, played an eclipse as a saving trump once, on some savages, and I saw my chance. """),
+("A Connecticut Yankee in King Arthur's Court", """I allowed silence to accumulate while I got my impressiveness together, and then said:"""),
+("A Connecticut Yankee in King Arthur's Court", 
+"""In the stillness and the darkness, the knowledge that I was in deadly danger took to itself deeper and deeper meaning all the time; a something which was realization crept inch by inch through my veins and turned me cold."""),  
 ]
 
-dialogue = [("A Connecticut Yankee in King Arthur's Court", """"You know about transmigration of souls; do you know about
-transposition of epochs--and bodies?" """),
+dialogue = [("A Connecticut Yankee in King Arthur's Court", """"You know about transmigration of souls; do you know about transposition of epochs -- and bodies?" """),
+("A Christmas Carol",""""I want nothing from you; I ask nothing of you; why cannot we be friends?" """),
+("A Christmas Carol",""""Are there no prisons?" asked Scrooge."""),
+("A Connecticut Yankee in King Arthur's Court", """"Camelot," said he."""),
+("A Connecticut Yankee in King Arthur's Court", """"I find I can't go on; but come with me, I've got it all written out, and you can read it if you like." """),
+("A Connecticut Yankee in King Arthur's Court", """"I don't seem to remember hearing of it before.  Name of the asylum, likely." """),
+("A Christmas Carol",""""Your lip is trembling," said the Ghost. "And what is that upon your cheek?" """),
+("A Christmas Carol",""""You have never seen the like of me before!" exclaimed the Spirit."""),
+("A Christmas Carol",""""More than eighteen hundred," said the Ghost. """),
+("A Connecticut Yankee in King Arthur's Court", """I knew him in Egypt three hundred years ago; I knew him in India five hundred years ago--he is always blethering around in my way, everywhere I go; he makes me tired."""),
+("A Connecticut Yankee in King Arthur's Court", """"How long have I been shut up in this hole?" """),
+]
+
+metastories = [("A Connecticut Yankee in King Arthur's Court", """This was the old man's tale.  He said:"""),
+]
+
+abstractions = [("The Wizard of Oz", "The Protagonist has a happy life on a farm."),
+("The Wizard of Oz", "Atmospheric circumstances take the protgaonist away from her happy life to a strange land."),
+("The Wizard of Oz", "The Protagonist accidentally kills a powerful villain."),
+("The Wizard of Oz", "Through a stroke of good luck, the Protagonist obtains magical footwear."),
+("The Wizard of Oz", "The Protagonist begins a quest to return home."),
+("The Wizard of Oz", "The Protagonist works with oddball, unlikely heroes to fulfill the quest."),
+("The Wizard of Oz", "The Protagonist triumphs over evil and returns home."),
 ]
 
 ribald_lines = [("The Time Machine", "'What a treat it is to stick a fork into meat again!'"),
-        ("The War of the Worlds", "As it bulged up and caught the light, it glistened like wet leather.")
+("The War of the Worlds", "As it bulged up and caught the light, it glistened like wet leather."),
+("A Connecticut Yankee in King Arthur's Court", """It was as sweet an outfit as ever I saw, what there was of it."""),
         ]
 
 concluding_lines = [("Peter Pan","""Our last glimpse of her shows her at the window, watching them receding into the sky until they were as small as stars."""),
