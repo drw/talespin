@@ -1,7 +1,9 @@
-import os, sys, re, fire, textwrap
+import os, sys, re, fire, textwrap, dataset
 
 import random
 from pprint import pprint
+
+db_file = "/Users/drw/code/talespin/lines.db"
 
 first_lines = [ ("The Time Machine","""The Time Traveller (for so it will be convenient to speak of him) was expounding a recondite matter to us. """),
 ("The War of the Worlds","""No one would have believed in the last years of the nineteenth century that this world was being watched keenly and closely by intelligences greater than man's and yet as mortal as his own."""),
@@ -130,6 +132,35 @@ concluding_lines = [("Peter Pan","""Our last glimpse of her shows her at the win
 ("A Princess of Mars", """I believe that they are waiting there for me, and something tells me that I shall soon know."""),
 ]
 
+def get_table(filename):
+    import os.path
+    table_name = 'talespin_lines'
+    db = dataset.connect('sqlite:///{}'.format(filename))
+    table = db[table_name]
+    if os.path.isfile(filename): # The database already exists.
+        return table
+    else:
+        for line in first_lines:
+            table.insert(dict(source = line[0], line = line[1], position = 'first', category = 'first_lines', uses = 0, chances = 0))
+
+        for line in random_lines:
+            table.insert(dict(source = line[0], line = line[1], position = 'middle', category = 'random_lines', uses = 0, chances = 0))
+
+        for line in dialogue:
+            table.insert(dict(source = line[0], line = line[1], position = 'middle', category = 'dialogue', uses = 0, chances = 0))
+
+        for line in ribald_lines:
+            table.insert(dict(source = line[0], line = line[1], position = 'middle', category = 'ribald_lines', uses = 0, chances = 0))
+
+        for line in abstractions:
+            table.insert(dict(source = line[0], line = line[1], position = 'middle', category = 'abstract_lines', uses = 0, chances = 0)) 
+            # Note that some abstractions are not middle-of-the-story stuff.
+
+        for line in concluding_lines:
+            table.insert(dict(source = line[0], line = line[1], position = 'last', category = 'concluding_lines', uses = 0, chances = 0))
+        
+        return table
+    
 def choose_line(used,options,mode='random'):
     if mode == 'random':
         tup = random.choice(options)
