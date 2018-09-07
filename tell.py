@@ -10,7 +10,7 @@ first_lines = [ ("The Time Machine","""The Time Traveller (for so it will be con
 ("Moby Dick", """Some years ago -- never mind how long precisely -- having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world. """),
 ("The Red House Mystery by A. A. Milne", """In the drowsy heat of the summer afternoon the Red House was taking its siesta. """),
 ("A Princess of Mars","""I am a very old man; how old I do not know.  Possibly I am a hundred, possibly more; but I cannot tell because I have never aged as other men, nor do I remember any childhood.  So far as I can recollect I have always been a man, a man of about thirty. """),
-("A Connecticut Yankee in King Arthur's Court","""It was in Warwick Castle that I came across the curious stranger whom I am going to talk about.  He attracted me by three things: his candid simplicity, his marvelous familiarity with ancient armor, and the restfulness of his company--for he did all the talking."""),
+("A Connecticut Yankee in King Arthur's Court","""It was in Warwick Castle that I came across the curious stranger whom I am going to talk about.  He attracted me by three things: his candid simplicity, his marvelous familiarity with ancient armor, and the restfulness of his company -- for he did all the talking."""),
 ("The Metamorphosis", """As Gregor Samsa awoke one morning from uneasy dreams he found himself transformed in his bed into a gigantic insect."""),
 ("Alice's Adventures in Wonderland", """Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do: once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it, 'and what is the use of a book,' thought Alice 'without pictures or conversations?'"""),
 ("Peter Pan", """All children, except one, grow up."""),
@@ -28,22 +28,15 @@ first_verses = [("The Hunting of the Snark", """     "Just the place for a Snark
 ]
 verses = [("The Hunting of the Snark", """     The loss of his clothes hardly mattered, because
           He had seven coats on when he came,
-     With three pairs of boots--but the worst of it was,
+     With three pairs of boots -- but the worst of it was,
           He had wholly forgotten his name.""") # plot twist: Amnesia!
 ]
-wonderland_lines = [("Alice's Adventures in Wonderland", """'Treacle,' said a sleepy voice behind her."""),
+random_lines = [
 ("Alice's Adventures in Wonderland", """So she set to work, and very soon finished off the cake."""),
-
-]
-random_lines = [("Peter Pan","""He had his position in the city to consider."""),
+("Peter Pan","""He had his position in the city to consider."""),
 ("Peter Pan","""Oh, surely she must have been dreaming."""),
-("The Time Machine", """'That is all right,' said the Psychologist."""),
-("The Time Machine", """The Time Traveller smiled."""),
-("The Time Machine", """'Why not?' said the Time Traveller."""),
-("The Time Machine", """'To discover a society,' said I, 'erected on a strictly communistic basis.'"""),
 ("The Time Machine", """The Psychologist recovered from his stupor, and suddenly looked under the table. """),
 ("The Time Machine", """At that the Time Traveller laughed cheerfully."""),
-("The Time Machine", """'"Communism," said I to myself."""),
 ("The War of the Worlds","""The planet Mars, I scarcely need remind the reader, revolves about the sun at a mean distance of 140,000,000 miles, and the light and heat it receives from the sun is barely half of that received by this world."""),
 ("The War of the Worlds","""All that time the Martians must have been getting ready."""),
 ("The War of the Worlds","""A boy came running towards me."""),
@@ -58,18 +51,10 @@ random_lines = [("Peter Pan","""He had his position in the city to consider.""")
 ("The War of the Worlds","""And this Thing I saw!  How can I describe it?"""),
 ("The War of the Worlds","""That night I had come to the fatal cross-roads. """),
 ("The Marvelous Land of Oz","""The Guardian of the Gate at once came out and looked at them curiously, as if a circus had come to town."""),
-("The Marvelous Land of Oz",""""In an emergency," he announced, "it is always a good thing to pause and reflect. Please excuse me while I pause and reflect." """),
 ("The Marvelous Land of Oz","""Very carefully he began sprinkling the Thing with the precious powder."""),
-("The Wizard of Oz",""""That is because you have no brains" answered the girl."""),
-("The Wizard of Oz",""""Who are you and where are you going?" asked the Stork."""),
 ("The Wizard of Oz","""They came from all directions, and there were thousands of them: big mice and little mice and middle-sized mice; and each one brought a piece of string in his mouth."""),
 ("The Wizard of Oz","""The road was smooth and well paved, now, and the country about was beautiful, so that the travelers rejoiced in leaving the forest far behind, and with it the many dangers they had met in its gloomy shades."""),
 ("The Wizard of Oz","""As they walked on, the green glow became brighter and brighter, and it seemed that at last they were nearing the end of their travels."""),
-("The Wizard of Oz",""""Where did you get the mark upon your forehead?" continued the voice."""),
-("The Wizard of Oz","""After this she stood upon both feet and cried in a loud voice:
-
-"Ziz-zy, zuz-zy, zik!"
-"""),
 ("The Wizard of Oz","""The sky was darkened, and a low rumbling sound was heard in the air."""),
 ("The Wizard of Oz","""But the wicked creature was very cunning, and she finally thought of a trick that would give her what she wanted. """),
 ("A Connecticut Yankee in King Arthur's Court", """He caught himself nodding, now, and smiled one of those pathetic, obsolete smiles of his, and said: """),
@@ -101,8 +86,22 @@ dialogue = [("A Connecticut Yankee in King Arthur's Court", """"You know about t
 ("A Christmas Carol",""""Your lip is trembling," said the Ghost. "And what is that upon your cheek?" """),
 ("A Christmas Carol",""""You have never seen the like of me before!" exclaimed the Spirit."""),
 ("A Christmas Carol",""""More than eighteen hundred," said the Ghost. """),
-("A Connecticut Yankee in King Arthur's Court", """I knew him in Egypt three hundred years ago; I knew him in India five hundred years ago--he is always blethering around in my way, everywhere I go; he makes me tired."""),
+("A Connecticut Yankee in King Arthur's Court", """I knew him in Egypt three hundred years ago; I knew him in India five hundred years ago -- he is always blethering around in my way, everywhere I go; he makes me tired."""),
 ("A Connecticut Yankee in King Arthur's Court", """"How long have I been shut up in this hole?" """),
+("The Time Machine", """'"Communism," said I to myself."""),
+("The Time Machine", """'That is all right,' said the Psychologist."""),
+("The Time Machine", """The Time Traveller smiled."""),
+("The Time Machine", """'Why not?' said the Time Traveller."""),
+("The Time Machine", """'To discover a society,' said I, 'erected on a strictly communistic basis.'"""),
+("The Marvelous Land of Oz",""""In an emergency," he announced, "it is always a good thing to pause and reflect. Please excuse me while I pause and reflect." """),
+("The Wizard of Oz",""""That is because you have no brains" answered the girl."""),
+("The Wizard of Oz",""""Who are you and where are you going?" asked the Stork."""),
+("The Wizard of Oz",""""Where did you get the mark upon your forehead?" continued the voice."""),
+("The Wizard of Oz","""After this she stood upon both feet and cried in a loud voice:
+
+"Ziz-zy, zuz-zy, zik!"
+"""),
+("Alice's Adventures in Wonderland", """'Treacle,' said a sleepy voice behind her."""),
 ]
 
 metastories = [("A Connecticut Yankee in King Arthur's Court", """This was the old man's tale.  He said:"""),
