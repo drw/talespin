@@ -14,12 +14,14 @@ first_lines = [ ("The Time Machine","""The Time Traveller (for so it will be con
 ("The Metamorphosis", """As Gregor Samsa awoke one morning from uneasy dreams he found himself transformed in his bed into a gigantic insect."""),
 ("Alice's Adventures in Wonderland", """Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do: once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it, 'and what is the use of a book,' thought Alice 'without pictures or conversations?'"""),
 ("Peter Pan", """All children, except one, grow up."""),
-("Aesop's Fables", """A BAT who fell upon the ground and was caught by a Weasel pleaded to be spared his life."""),
-("Aesop's Fables", """A FATHER had a family of sons who were perpetually quarreling among themselves."""),
+#("Aesop's Fables", """A BAT who fell upon the ground and was caught by a Weasel pleaded to be spared his life."""),
+#("Aesop's Fables", """A FATHER had a family of sons who were perpetually quarreling among themselves."""),
 ("Aesop's Fables", """A HARE one day ridiculed the short feet and slow pace of the Tortoise, who replied, laughing: "Though you be swift as the wind, I will beat you in a race." """),
-("O Pioneers", """One January day, thirty years ago, the little town of Hanover, anchored on a windy Nebraska tableland, was trying not to be blown away. """),
+#("O Pioneers", """One January day, thirty years ago, the little town of Hanover, anchored on a windy Nebraska tableland, was trying not to be blown away. """),
 ("The Scarlet Letter", """A throng of bearded men, in sad-coloured garments and grey steeple-crowned hats, inter-mixed with women, some wearing hoods, and others bareheaded, was assembled in front of a wooden edifice, the door of which was heavily timbered with oak, and studded with iron spikes."""),
 ("The Marvelous Land of Oz", """In the Country of the Gillikins, which is at the North of the Land of Oz, lived a youth called Tip."""),
+("A Cure for the Blues", "Brightening clouds seemed to rise from the mist of the fair Chattahoochee, to spread their beauty over the thick forest, to guide the hero whose bosom beats with aspirations to conquer the enemy that would tarnish his name, and to win back the admiration of his long-tried friend."),
+("Just So Stories", "Once upon a most early time was a Neolithic man. "),
 ]
 first_verses = [("The Hunting of the Snark", """     "Just the place for a Snark!" the Bellman cried,
           As he landed his crew with care;
@@ -31,8 +33,7 @@ verses = [("The Hunting of the Snark", """     The loss of his clothes hardly ma
      With three pairs of boots -- but the worst of it was,
           He had wholly forgotten his name.""") # plot twist: Amnesia!
 ]
-random_lines = [
-("Alice's Adventures in Wonderland", """So she set to work, and very soon finished off the cake."""),
+random_lines = [ ("Alice's Adventures in Wonderland", """So she set to work, and very soon finished off the cake."""),
 ("Peter Pan","""He had his position in the city to consider."""),
 ("Peter Pan","""Oh, surely she must have been dreaming."""),
 ("The Time Machine", """The Psychologist recovered from his stupor, and suddenly looked under the table. """),
@@ -75,6 +76,8 @@ random_lines = [
 ("A Connecticut Yankee in King Arthur's Court", """I allowed silence to accumulate while I got my impressiveness together, and then said:"""),
 ("A Connecticut Yankee in King Arthur's Court", 
 """In the stillness and the darkness, the knowledge that I was in deadly danger took to itself deeper and deeper meaning all the time; a something which was realization crept inch by inch through my veins and turned me cold."""),  
+("Around the World in 80 Days" "The way in which he got admission to this exclusive club was simple enough."),
+("Just So Stories", "This is the way Bi-Coloured-Python-Rock-Snakes always talk."),
 ]
 
 dialogue = [("A Connecticut Yankee in King Arthur's Court", """"You know about transmigration of souls; do you know about transposition of epochs -- and bodies?" """),
