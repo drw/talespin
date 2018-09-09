@@ -164,6 +164,30 @@ def get_table(filename):
             table.insert(dict(source = line[0], line = line[1], position = 'last', category = 'concluding_lines', uses = 0, views = 0, usage = 0.0))
         
         return table
+
+def add_line(filename, source, line, position, category):
+    import os.path
+    db_exists = os.path.isfile(filename)
+    if not db_exists:
+        print("No such database exists.")
+        return
+    db = dataset.connect('sqlite:///{}'.format(filename))
+    table = db[table_name]
+    assert position in ['first','middle','last']
+    assert category in ['first_lines', 'random_lines', 'dialogue', 'ribald_lines', 'abstract_lines', 'concluding_lines']
+    table.insert(dict(source = source, line = line, position = position, category = category, uses = 0, views = 0, usage = 0.0)) 
+    print('Added "{}" from "{}" with position "{}" and category "{}"'.format(line, source, position, category))
+
+def delete_line(filename, line):
+    import os.path
+    db_exists = os.path.isfile(filename)
+    if not db_exists:
+        print("No such database exists.")
+        return
+    db = dataset.connect('sqlite:///{}'.format(filename))
+    table = db[table_name]
+    table.delete(line=line)
+
 def choose(table,used,options,mode='random'):
     """Choose among dicts from the database and update
     the view/use counts appropriately for interactive choosing."""
