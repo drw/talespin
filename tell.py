@@ -164,7 +164,45 @@ def get_table(filename):
             table.insert(dict(source = line[0], line = line[1], position = 'last', category = 'concluding_lines', uses = 0, views = 0, usage = 0.0))
         
         return table
-    
+def choose(table,used,options,mode='random'):
+    """Choose among dicts from the database and update
+    the view/use counts appropriately for interactive choosing."""
+    if mode == 'random':
+        d = random.choice(options)
+    elif mode == 'interactive':
+        prompt = "Choose an option:\n"
+        for k,option in enumerate(options):
+            prompt += "{}) {}\n".format(k+1,option['line'])
+            option['views'] += 1
+            table.update(option, ['line'])
+        number = None
+        k_max = len(options)
+        while number not in range(1,k_max+1):
+            try:
+                keyed_in = input(prompt)
+                number = int(keyed_in)
+            except:
+                print("{} is not a number between 1 and {}".format(keyed_in,k_max))
+        d = options[number-1]
+        d['uses'] += 1
+        table.update(d, ['line'])
+        for option in options:
+            option['usage'] = (option['uses']+0.0)/option['views']
+            table.update(option, ['line'])
+    else:
+        raise ValueError("choose has not been programmed to handle mode {} yet.".format(mode))
+
+    line = d['line']
+    used.append(line)
+    # Print the first line and then the last couple:
+    #print(used[0])
+    #if len(used) > 2:
+    #    print(used[-2])
+    #if len(used) > 1:
+    #    print(used[-1])
+    print(textwrap.fill(line, width = 60, initial_indent="  > ", subsequent_indent="  > "))
+    return used, line
+
 def choose_line(used,options,mode='random'):
     if mode == 'random':
         tup = random.choice(options)
@@ -225,16 +263,16 @@ def build_paragraph(sentences):
     return paragraph, sentences
 
 def interactive():
-    used, _ = choose_line([], random.sample(first_lines,4), 'interactive')
-
-    other_lines = verses + random_lines + dialogue + abstractions
+    table = get_table(db_file)
+    initial_lines = list(table.find(position='first') )
+    used, _ = choose(table, [], random.sample(initial_lines,5), 'interactive')
 
     while random.random() > 0.3 or len(used) < 2:
-        used, chosen_tup = choose_line(used, random.sample(other_lines,5), 'interactive')
-        other_lines.remove(chosen_tup)
-        next_line = random.choice(other_lines)[1]
+        middle_lines = [d for d in list(table.find(position='middle') ) if d not in used] # This seems not to be preventing repetitions.
+        used, chosen_dict = choose(table, used, random.sample(middle_lines,5), 'interactive')
 
-    used, _ = choose_line(used, random.sample(concluding_lines,4), 'interactive')
+    final_lines = list(table.find(position='last') )
+    used, _ = choose(table, used, random.sample(final_lines,5), 'interactive')
 
     print("The finished story:\n")
     print(textwrap.fill(used[0],60, initial_indent = "    ") +"\n")
