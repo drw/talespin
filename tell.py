@@ -182,6 +182,14 @@ def view_table(filename):
         print("{:<40.40} {}/{} = {:1.3}".format(line['line'], line['uses'], line['views'], line['usage']))
 
 def add_line(filename, source, line, position, category):
+    """The tricky thing about using this function from the command line is that 
+        > python tell.py add_line lines.db "Title" "'I think, therefore I think.'" middle dialgoue
+    gets misinterpreted since bash seems to eat the outer quotes, and the fire module eats the
+    inner quotes.
+    
+    A correct way to do this is to escape a third level of quotes.
+        > python tell.py add_line lines.db "Title" "'\"I think, therefore I think.\"'" middle dialgoue
+    """
     import os.path
     db_exists = os.path.isfile(filename)
     if not db_exists:
