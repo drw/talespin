@@ -296,7 +296,7 @@ def random_story():
 def build_paragraph(sentences):
     paragraph = ""
     k = 0
-    while len(paragraph) == 0 or (k < len(sentences) and sentences[k][0] != '"'):
+    while len(paragraph) == 0 or (k < len(sentences) and sentences[k][0] not in['"',"'"] ):
         line = sentences[k]
         paragraph += line.strip() + " "
         sentences.remove(line)
