@@ -165,6 +165,22 @@ def get_table(filename):
         
         return table
 
+def view_table(filename):
+    import os.path
+    db_exists = os.path.isfile(filename)
+    if not db_exists:
+        print("No such database exists.")
+        return
+    db = dataset.connect('sqlite:///{}'.format(filename))
+    table = db[table_name]
+    all_lines = table.find(order_by=['position', '-usage', '-uses', 'views'])
+    position = ''
+    for line in all_lines:
+        if line['position'] != position:
+            print("\n     ^ {} ^          v {} v\n".format(position,line['position']))
+            position = line['position']
+        print("{:<40.40} {}/{} = {:1.3}".format(line['line'], line['uses'], line['views'], line['usage']))
+
 def add_line(filename, source, line, position, category):
     import os.path
     db_exists = os.path.isfile(filename)
