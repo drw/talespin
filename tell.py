@@ -315,7 +315,7 @@ def interactive():
     used, _ = choose(table, used, random.sample(final_lines,5), 'interactive')
 
     print("The finished story:\n")
-    print(textwrap.fill(used[0],60, initial_indent = "    ") +"\n")
+    print(textwrap.fill(used[0], 60, initial_indent = "    ") +"\n")
     #paragraph = ""
     #for line in used[1:-1]:
     #    paragraph += line.strip() + " "
@@ -323,9 +323,9 @@ def interactive():
     sentences = used[1:-1] 
     while len(sentences) > 0:
         paragraph, sentences = build_paragraph(sentences)
-        print(textwrap.fill(paragraph,60, initial_indent = "    ")+"\n")
+        print(textwrap.fill(paragraph, 60, initial_indent = "    ")+"\n")
 
-    print(textwrap.fill(used[-1],60, initial_indent = "    ")+"\n")
+    print(textwrap.fill(used[-1], 60, initial_indent = "    ")+"\n")
 
 def i():
     interactive()
