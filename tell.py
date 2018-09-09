@@ -210,7 +210,10 @@ def delete_line(filename, line):
         return
     db = dataset.connect('sqlite:///{}'.format(filename))
     table = db[table_name]
-    table.delete(line=line)
+    if table.delete(line=line):
+        print("Found and deleted line={}".format(line))
+    else:
+        print("Unable to find line={}".format(line))
 
 def choose(table,used,options,mode='random'):
     """Choose among dicts from the database and update
