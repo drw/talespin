@@ -145,23 +145,23 @@ def get_table(filename):
         return table
     else:
         for line in first_lines:
-            table.insert(dict(source = line[0], line = line[1], position = 'first', category = 'first_lines', uses = 0, chances = 0))
+            table.insert(dict(source = line[0], line = line[1], position = 'first', category = 'first_lines', uses = 0, views = 0, usage = 0.0))
 
         for line in random_lines:
-            table.insert(dict(source = line[0], line = line[1], position = 'middle', category = 'random_lines', uses = 0, chances = 0))
+            table.insert(dict(source = line[0], line = line[1], position = 'middle', category = 'random_lines', uses = 0, views = 0, usage = 0.0))
 
         for line in dialogue:
-            table.insert(dict(source = line[0], line = line[1], position = 'middle', category = 'dialogue', uses = 0, chances = 0))
+            table.insert(dict(source = line[0], line = line[1], position = 'middle', category = 'dialogue', uses = 0, views = 0, usage = 0.0))
 
         for line in ribald_lines:
-            table.insert(dict(source = line[0], line = line[1], position = 'middle', category = 'ribald_lines', uses = 0, chances = 0))
+            table.insert(dict(source = line[0], line = line[1], position = 'middle', category = 'ribald_lines', uses = 0, views = 0, usage = 0.0))
 
         for line in abstractions:
-            table.insert(dict(source = line[0], line = line[1], position = 'middle', category = 'abstract_lines', uses = 0, chances = 0)) 
+            table.insert(dict(source = line[0], line = line[1], position = 'middle', category = 'abstract_lines', uses = 0, views = 0, usage = 0.0)) 
             # Note that some abstractions are not middle-of-the-story stuff.
 
         for line in concluding_lines:
-            table.insert(dict(source = line[0], line = line[1], position = 'last', category = 'concluding_lines', uses = 0, chances = 0))
+            table.insert(dict(source = line[0], line = line[1], position = 'last', category = 'concluding_lines', uses = 0, views = 0, usage = 0.0))
         
         return table
     
