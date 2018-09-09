@@ -4,6 +4,7 @@ import random
 from pprint import pprint
 
 db_file = "/Users/drw/code/talespin/lines.db"
+table_name = 'talespin_lines'
 
 first_lines = [ ("The Time Machine","""The Time Traveller (for so it will be convenient to speak of him) was expounding a recondite matter to us. """),
 ("The War of the Worlds","""No one would have believed in the last years of the nineteenth century that this world was being watched keenly and closely by intelligences greater than man's and yet as mortal as his own."""),
@@ -134,12 +135,13 @@ concluding_lines = [("Peter Pan","""Our last glimpse of her shows her at the win
 ("A Princess of Mars", """I believe that they are waiting there for me, and something tells me that I shall soon know."""),
 ]
 
+
 def get_table(filename):
     import os.path
-    table_name = 'talespin_lines'
+    db_exists = os.path.isfile(filename)
     db = dataset.connect('sqlite:///{}'.format(filename))
     table = db[table_name]
-    if os.path.isfile(filename): # The database already exists.
+    if db_exists: # The database already exists.
         return table
     else:
         for line in first_lines:
