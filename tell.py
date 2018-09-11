@@ -287,20 +287,19 @@ def choose_line(used,options,mode='random'):
 def random_story():
     table = get_table(db_file)
     initial_lines = list(table.find(position='first') )
-    #first_line = random.choice(first_lines)[1]
     first_line = random.choice(initial_lines)['line']
     used = [first_line]
     print(first_line) 
 
-    other_lines = verses + random_lines + dialogue + abstractions
-
+    middle_lines = list(table.find(position='middle') )
     while random.random() > 0.2 or len(used) < 2:
-        next_line = random.choice(other_lines)[1]
+        next_line = random.choice(middle_lines)['line']
         if next_line not in used:
             print(next_line)
             used.append(next_line)
 
-    conclusion = random.choice(concluding_lines)[1]
+    final_lines = list(table.find(position='last') )
+    conclusion = random.choice(final_lines)['line']
     print(conclusion)
     used.append(conclusion)
 
