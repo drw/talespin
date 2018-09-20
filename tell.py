@@ -20,7 +20,7 @@ first_lines = [ ("The Time Machine","""The Time Traveller (for so it will be con
 ("Aesop's Fables", """A HARE one day ridiculed the short feet and slow pace of the Tortoise, who replied, laughing: "Though you be swift as the wind, I will beat you in a race." """),
 #("O Pioneers", """One January day, thirty years ago, the little town of Hanover, anchored on a windy Nebraska tableland, was trying not to be blown away. """),
 ("The Scarlet Letter", """A throng of bearded men, in sad-coloured garments and grey steeple-crowned hats, inter-mixed with women, some wearing hoods, and others bareheaded, was assembled in front of a wooden edifice, the door of which was heavily timbered with oak, and studded with iron spikes."""),
-("The Marvelous Land of Oz", """In the Country of the Gillikins, which is at the North of the Land of Oz, lived a youth called Tip."""),
+#("The Marvelous Land of Oz", """In the Country of the Gillikins, which is at the North of the Land of Oz, lived a youth called Tip."""), # Too boring a start.
 ("A Cure for the Blues", "Brightening clouds seemed to rise from the mist of the fair Chattahoochee, to spread their beauty over the thick forest, to guide the hero whose bosom beats with aspirations to conquer the enemy that would tarnish his name, and to win back the admiration of his long-tried friend."),
 ("Just So Stories", "Once upon a most early time was a Neolithic man. "),
 ]
