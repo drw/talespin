@@ -312,18 +312,7 @@ def build_paragraph(sentences):
         sentences.remove(line)
     return paragraph, sentences
 
-def interactive():
-    table = get_table(db_file)
-    initial_lines = list(table.find(position='first') )
-    used, _ = choose(table, [], random.sample(initial_lines,5), 'interactive')
-
-    while random.random() > 0.3 or len(used) < 2:
-        middle_lines = [d for d in list(table.find(position='middle') ) if d['line'] not in used] # This seems not to be preventing repetitions.
-        used, chosen_dict = choose(table, used, random.sample(middle_lines,6), 'interactive')
-
-    final_lines = list(table.find(position='last') )
-    used, _ = choose(table, used, random.sample(final_lines,5), 'interactive')
-
+def print_story(used):
     print("The finished story:\n")
     print(textwrap.fill(used[0], 60, initial_indent = "    ") +"\n")
     #paragraph = ""
@@ -336,6 +325,19 @@ def interactive():
         print(textwrap.fill(paragraph, 60, initial_indent = "    ")+"\n")
 
     print(textwrap.fill(used[-1], 60, initial_indent = "    ")+"\n")
+
+def interactive():
+    table = get_table(db_file)
+    initial_lines = list(table.find(position='first') )
+    used, _ = choose(table, [], random.sample(initial_lines,5), 'interactive')
+
+    while random.random() > 0.3 or len(used) < 2:
+        middle_lines = [d for d in list(table.find(position='middle') ) if d['line'] not in used] # This seems not to be preventing repetitions.
+        used, chosen_dict = choose(table, used, random.sample(middle_lines,6), 'interactive')
+
+    final_lines = list(table.find(position='last') )
+    used, _ = choose(table, used, random.sample(final_lines,5), 'interactive')
+    print_story(used)
 
 def i():
     interactive()
