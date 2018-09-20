@@ -284,25 +284,6 @@ def choose_line(used,options,mode='random'):
     print(textwrap.fill(line, width = 60, initial_indent="  > ", subsequent_indent="  > "))
     return used, tup
 
-def random_story():
-    table = get_table(db_file)
-    initial_lines = list(table.find(position='first') )
-    first_line = random.choice(initial_lines)['line']
-    used = [first_line]
-    print(first_line) 
-
-    middle_lines = list(table.find(position='middle') )
-    while random.random() > 0.3 or len(used) < 2:
-        next_line = random.choice(middle_lines)['line']
-        if next_line not in used:
-            print(next_line)
-            used.append(next_line)
-
-    final_lines = list(table.find(position='last') )
-    conclusion = random.choice(final_lines)['line']
-    print(conclusion)
-    used.append(conclusion)
-
 def build_paragraph(sentences):
     paragraph = ""
     k = 0
@@ -325,6 +306,23 @@ def print_story(used):
         print(textwrap.fill(paragraph, 60, initial_indent = "    ")+"\n")
 
     print(textwrap.fill(used[-1], 60, initial_indent = "    ")+"\n")
+
+def random_story():
+    table = get_table(db_file)
+    initial_lines = list(table.find(position='first') )
+    first_line = random.choice(initial_lines)['line']
+    used = [first_line]
+
+    middle_lines = list(table.find(position='middle') )
+    while random.random() > 0.3 or len(used) < 2:
+        next_line = random.choice(middle_lines)['line']
+        if next_line not in used:
+            used.append(next_line)
+
+    final_lines = list(table.find(position='last') )
+    conclusion = random.choice(final_lines)['line']
+    used.append(conclusion)
+    print_story(used)
 
 def interactive():
     table = get_table(db_file)
