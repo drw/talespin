@@ -292,7 +292,7 @@ def random_story():
     print(first_line) 
 
     middle_lines = list(table.find(position='middle') )
-    while random.random() > 0.2 or len(used) < 2:
+    while random.random() > 0.3 or len(used) < 2:
         next_line = random.choice(middle_lines)['line']
         if next_line not in used:
             print(next_line)
