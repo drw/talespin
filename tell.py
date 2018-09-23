@@ -181,14 +181,14 @@ def view_table(filename):
             position = line['position']
         print("{:<40.40} {}/{} = {:1.3}".format(line['line'], line['uses'], line['views'], line['usage']))
 
-def add_line(filename, source, line, position, category):
+def add_line(filename, source, author, line, position, category):
     """The tricky thing about using this function from the command line is that 
-        > python tell.py add_line lines.db "Title" "'I think, therefore I think.'" middle dialgoue
+        > python tell.py add_line lines.db "Title" "Author" "'I think, therefore I think.'" middle dialgoue
     gets misinterpreted since bash seems to eat the outer quotes, and the fire module eats the
     inner quotes.
     
     A correct way to do this is to escape a third level of quotes.
-        > python tell.py add_line lines.db "Title" "'\"I think, therefore I think.\"'" middle dialgoue
+        > python tell.py add_line lines.db "Title" "Author" "'\"I think, therefore I think.\"'" middle dialgoue
     """
     import os.path
     db_exists = os.path.isfile(filename)
@@ -199,8 +199,8 @@ def add_line(filename, source, line, position, category):
     table = db[table_name]
     assert position in ['first','middle','last']
     assert category in ['first_lines', 'random_lines', 'dialogue', 'ribald_lines', 'abstract_lines', 'concluding_lines']
-    table.insert(dict(source = source, line = line, position = position, category = category, uses = 0, views = 0, usage = 0.0)) 
-    print('Added "{}" from "{}" with position "{}" and category "{}"'.format(line, source, position, category))
+    table.insert(dict(source = source, author = author, line = line, position = position, category = category, uses = 0, views = 0, usage = 0.0)) 
+    print('Added "{}" from "{}" (by {}) with position "{}" and category "{}"'.format(line, source, author, position, category))
 
 def delete_line(filename, line):
     import os.path
