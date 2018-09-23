@@ -145,23 +145,23 @@ def get_table(filename):
         return table
     else:
         for line in first_lines:
-            table.insert(dict(source = line[0], line = line[1], position = 'first', category = 'first_lines', uses = 0, views = 0, usage = 0.0))
+            table.insert(dict(source = line[0], line = line[1], position = 'first', category = None, uses = 0, views = 0, usage = 0.0))
 
         for line in random_lines:
-            table.insert(dict(source = line[0], line = line[1], position = 'middle', category = 'random_lines', uses = 0, views = 0, usage = 0.0))
+            table.insert(dict(source = line[0], line = line[1], position = 'middle', category = None, uses = 0, views = 0, usage = 0.0))
 
         for line in dialogue:
             table.insert(dict(source = line[0], line = line[1], position = 'middle', category = 'dialogue', uses = 0, views = 0, usage = 0.0))
 
         for line in ribald_lines:
-            table.insert(dict(source = line[0], line = line[1], position = 'middle', category = 'ribald_lines', uses = 0, views = 0, usage = 0.0))
+            table.insert(dict(source = line[0], line = line[1], position = 'middle', tag = 'ribald', uses = 0, views = 0, usage = 0.0))
 
         for line in abstractions:
-            table.insert(dict(source = line[0], line = line[1], position = 'middle', category = 'abstract_lines', uses = 0, views = 0, usage = 0.0)) 
+            table.insert(dict(source = line[0], line = line[1], position = 'middle', tag = 'abstract', uses = 0, views = 0, usage = 0.0)) 
             # Note that some abstractions are not middle-of-the-story stuff.
 
         for line in concluding_lines:
-            table.insert(dict(source = line[0], line = line[1], position = 'last', category = 'concluding_lines', uses = 0, views = 0, usage = 0.0))
+            table.insert(dict(source = line[0], line = line[1], position = 'last', category = None, uses = 0, views = 0, usage = 0.0))
         
         return table
 
@@ -198,7 +198,9 @@ def add_line(filename, source, author, line, position, category):
     db = dataset.connect('sqlite:///{}'.format(filename))
     table = db[table_name]
     assert position in ['first','middle','last']
-    assert category in ['first_lines', 'random_lines', 'dialogue', 'ribald_lines', 'abstract_lines', 'concluding_lines']
+    assert category in ['narration', 'description', 'dialogue']
+    #assert genre in
+    #assert tag in ['ribald', 'abstract', ]
     table.insert(dict(source = source, author = author, line = line, position = position, category = category, uses = 0, views = 0, usage = 0.0)) 
     print('Added "{}" from "{}" (by {}) with position "{}" and category "{}"'.format(line, source, author, position, category))
 
