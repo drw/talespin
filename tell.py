@@ -185,7 +185,9 @@ def view_table(filename):
             position = line['position']
         print("{:<40.40} {}/{} = {:1.3}".format(line['line'], line['uses'], line['views'], line['usage']))
 
-def add_line(filename, source, author, line, position, category):
+    print("---------------\nThere are a total of {} lines in {}, with a first/middle/last breakdown of {}/{}/{}.".format(line_count,filename,position_count['first'],position_count['middle'],position_count['last']))
+
+def add_line(filename, source, author, line, position, category=None, genre=None):
     """The tricky thing about using this function from the command line is that 
         > python tell.py add_line lines.db "Title" "Author" "'I think, therefore I think.'" middle dialgoue
     gets misinterpreted since bash seems to eat the outer quotes, and the fire module eats the
@@ -202,11 +204,11 @@ def add_line(filename, source, author, line, position, category):
     db = dataset.connect('sqlite:///{}'.format(filename))
     table = db[table_name]
     assert position in ['first','middle','last']
-    assert category in ['narration', 'description', 'dialogue']
+    assert category in ['narration', 'description', 'dialogue', None]
     #assert genre in
     #assert tag in ['ribald', 'abstract', ]
-    table.insert(dict(source = source, author = author, line = line, position = position, category = category, uses = 0, views = 0, usage = 0.0)) 
-    print('Added "{}" from "{}" (by {}) with position "{}" and category "{}"'.format(line, source, author, position, category))
+    table.insert(dict(source = source, author = author, line = line, position = position, category = category, genre = genre, uses = 0, views = 0, usage = 0.0)) 
+    print('Added "{}" from "{}" (by {}) with position "{}" and category "{}" and genre "{}".'.format(line, source, author, position, category, genre))
 
 def delete_line(filename, line):
     import os.path
