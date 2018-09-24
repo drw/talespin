@@ -219,9 +219,25 @@ def delete_line(filename, line):
     db = dataset.connect('sqlite:///{}'.format(filename))
     table = db[table_name]
     if table.delete(line=line):
-        print("Found and deleted line={}".format(line))
+        print("found and deleted line={}".format(line))
     else:
-        print("Unable to find line={}".format(line))
+        print("unable to find line={}".format(line))
+
+def delete_by_source(filename, source):
+    import os.path
+    db_exists = os.path.isfile(filename)
+    if not db_exists:
+        print("No such database exists.")
+        return
+    db = dataset.connect('sqlite:///{}'.format(filename))
+    table = db[table_name]
+    first = table.find_one(source=source)
+    if first is not None:
+    #    print("Here, we would be attempting to delete {} which is the first line with source = {}".format(first['line'], source))
+        if table.delete(source=source):
+            print("Found and deleted line={} for source={}".format(first['line'], source))
+            return
+    print("Unable to find line for source = {}".format(source))
 
 def choose(table,used,options,mode='random'):
     """Choose among dicts from the database and update
