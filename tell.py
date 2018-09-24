@@ -1,5 +1,5 @@
 import os, sys, re, fire, textwrap, dataset
-
+from collections import defaultdict
 import random
 from pprint import pprint
 
@@ -175,7 +175,11 @@ def view_table(filename):
     table = db[table_name]
     all_lines = table.find(order_by=['position', '-usage', '-uses', 'views'])
     position = ''
+    position_count = defaultdict(int)
+    line_count = 0
     for line in all_lines:
+        line_count += 1
+        position_count[line['position']] += 1
         if line['position'] != position:
             print("\n     ^ {} ^          v {} v\n".format(position,line['position']))
             position = line['position']
