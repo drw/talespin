@@ -185,7 +185,7 @@ def view_table(filename):
             position = line['position']
         print("{:<40.40} {}/{} = {:1.3}".format(line['line'], line['uses'], line['views'], line['usage']))
 
-    print("---------------\nThere are a total of {} lines in {}, with a first/middle/last breakdown of {}/{}/{}.".format(line_count,filename,position_count['first'],position_count['middle'],position_count['last']))
+    print("---------------\nThere are a total of {} lines in {}, with a first/middle/last/any breakdown of {}/{}/{}/{}.".format(line_count,filename,position_count['first'],position_count['middle'],position_count['last'],position_count['any']))
 
 def add_line(filename, source, author, line, position, category=None, genre=None):
     """The tricky thing about using this function from the command line is that 
@@ -203,8 +203,8 @@ def add_line(filename, source, author, line, position, category=None, genre=None
         return
     db = dataset.connect('sqlite:///{}'.format(filename))
     table = db[table_name]
-    assert position in ['first','middle','last']
-    assert category in ['narration', 'description', 'dialogue', None]
+    assert position in ['first','middle','last','any']
+    assert category in ['narration', 'description', 'dialogue', 'set-up', 'aphorism', None]
     #assert genre in
     #assert tag in ['ribald', 'abstract', ]
     table.insert(dict(source = source, author = author, line = line, position = position, category = category, genre = genre, uses = 0, views = 0, usage = 0.0)) 
@@ -333,32 +333,32 @@ def print_story(used):
 
 def random_story():
     table = get_table(db_file)
-    initial_lines = list(table.find(position='first') )
+    initial_lines = list(table.find(position=['first','any']) )
     first_line = random.choice(initial_lines)['line']
     used = [first_line]
 
-    middle_lines = list(table.find(position='middle') )
+    middle_lines = list(table.find(position=['middle','any']) )
     while random.random() > 0.3 or len(used) < 2:
         next_line = random.choice(middle_lines)['line']
         if next_line not in used:
             used.append(next_line)
 
-    final_lines = list(table.find(position='last') )
+    final_lines = list(table.find(position=['last','any']) )
     conclusion = random.choice(final_lines)['line']
     used.append(conclusion)
     print_story(used)
 
 def interactive():
     table = get_table(db_file)
-    initial_lines = list(table.find(position='first') )
+    initial_lines = list(table.find(position=['first','any']) )
     used, _ = choose(table, [], random.sample(initial_lines,5), 'interactive')
 
-    while random.random() > 0.3 or len(used) < 2:
-        middle_lines = [d for d in list(table.find(position='middle') ) if d['line'] not in used] # This seems not to be preventing repetitions.
+    while random.random() > 0.3 or len(used) < 3:
+        middle_lines = [d for d in list(table.find(position=['middle','any']) ) if d['line'] not in used] # This seems not to be preventing repetitions.
         used, chosen_dict = choose(table, used, random.sample(middle_lines,6), 'interactive')
 
-    final_lines = list(table.find(position='last') )
-    used, _ = choose(table, used, random.sample(final_lines,5), 'interactive')
+    final_lines = list(table.find(position=['last','any']) )
+    used, _ = choose(table, used, random.sample(final_lines,7), 'interactive')
     print_story(used)
 
 def i():
