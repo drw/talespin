@@ -183,7 +183,7 @@ def view_table(filename):
         if line['position'] != position:
             print("\n     ^ {} ^          v {} v\n".format(position,line['position']))
             position = line['position']
-        print("{:<40.40} {}/{} = {:1.3}".format(line['line'], line['uses'], line['views'], line['usage']))
+        print("{:<50.50} {}/{} = {:1.3}  ({})".format(line['line'], line['uses'], line['views'], line['usage'], line['source']))
 
     print("---------------\nThere are a total of {} lines in {}, with a first/middle/last/any breakdown of {}/{}/{}/{}.".format(line_count,filename,position_count['first'],position_count['middle'],position_count['last'],position_count['any']))
 
