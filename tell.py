@@ -239,16 +239,19 @@ def delete_by_source(filename, source):
             return
     print("Unable to find line for source = {}".format(source))
 
-def choose(table,used,options,mode='random'):
+def choose(table,used,options,mode='random',counting=True):
     """Choose among dicts from the database and update
-    the view/use counts appropriately for interactive choosing."""
+    the view/use counts appropriately for interactive choosing, 
+    unless counting = False."""
+    print("counting = {}".format(counting))
     if mode == 'random':
         d = random.choice(options)
     elif mode == 'interactive':
         prompt = "Choose an option:\n"
         for k,option in enumerate(options):
             prompt += "{}) {}\n".format(k+1,option['line'])
-            option['views'] += 1
+            if counting:
+                option['views'] += 1
             table.update(option, ['line'])
         number = None
         k_max = len(options)
@@ -259,11 +262,12 @@ def choose(table,used,options,mode='random'):
             except:
                 print("{} is not a number between 1 and {}".format(keyed_in,k_max))
         d = options[number-1]
-        d['uses'] += 1
-        table.update(d, ['line'])
-        for option in options:
-            option['usage'] = (option['uses']+0.0)/option['views']
-            table.update(option, ['line'])
+        if counting:
+            d['uses'] += 1
+            table.update(d, ['line'])
+            for option in options:
+                option['usage'] = (option['uses']+0.0)/option['views']
+                table.update(option, ['line'])
     else:
         raise ValueError("choose has not been programmed to handle mode {} yet.".format(mode))
 
@@ -348,21 +352,21 @@ def random_story():
     used.append(conclusion)
     print_story(used)
 
-def interactive():
+def interactive(counting=True):
     table = get_table(db_file)
     initial_lines = list(table.find(position=['first','any']) )
-    used, _ = choose(table, [], random.sample(initial_lines,5), 'interactive')
+    used, _ = choose(table, [], random.sample(initial_lines,5), 'interactive', counting)
 
     while random.random() > 0.3 or len(used) < 3:
         middle_lines = [d for d in list(table.find(position=['middle','any']) ) if d['line'] not in used] # This seems not to be preventing repetitions.
-        used, chosen_dict = choose(table, used, random.sample(middle_lines,6), 'interactive')
+        used, chosen_dict = choose(table, used, random.sample(middle_lines,6), 'interactive', counting)
 
     final_lines = list(table.find(position=['last','any']) )
-    used, _ = choose(table, used, random.sample(final_lines,7), 'interactive')
+    used, _ = choose(table, used, random.sample(final_lines,7), 'interactive', counting)
     print_story(used)
 
-def i():
-    interactive()
+def i(counting=True):
+    interactive(counting)
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:
