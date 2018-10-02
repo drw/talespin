@@ -177,15 +177,19 @@ def view_table(filename):
     position = ''
     position_count = defaultdict(int)
     line_count = 0
+    genre_count = defaultdict(int)
     for line in all_lines:
         line_count += 1
         position_count[line['position']] += 1
+        if 'genre' in line:
+            genre_count[line['genre']] += 1
         if line['position'] != position:
             print("\n     ^ {} ^          v {} v\n".format(position,line['position']))
             position = line['position']
         print("{:<50.50} {}/{} = {:1.3}  ({})".format(line['line'], line['uses'], line['views'], line['usage'], line['source']))
 
     print("---------------\nThere are a total of {} lines in {}, with a first/middle/last/any breakdown of {}/{}/{}/{}.".format(line_count,filename,position_count['first'],position_count['middle'],position_count['last'],position_count['any']))
+    pprint(dict(genre_count))
 
 def add_line(filename, source, author, line, position, category=None, genre=None):
     """The tricky thing about using this function from the command line is that 
