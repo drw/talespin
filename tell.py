@@ -227,6 +227,12 @@ def delete_line(filename, line):
     else:
         print("unable to find line={}".format(line))
 
+def unadd_line(filename, source, author, line, position=None, category=None, genre=None):
+    """Since lines are still sometimes corrupted by shell interpretation, this
+    convenience function has been written to allow an add_line call to be 
+    easily undone."""
+    delete_line(filename, line)
+
 def delete_by_source(filename, source):
     import os.path
     db_exists = os.path.isfile(filename)
