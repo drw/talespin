@@ -287,11 +287,10 @@ def delete_by_source(filename, source):
             return
     print("Unable to find line for source = {}".format(source))
 
-def choose(table,used,options,mode='random',counting=True):
+def choose(table,used,options,mode='random',counting=True,controlled=False):
     """Choose among dicts from the database and update
     the view/use counts appropriately for interactive choosing, 
     unless counting = False."""
-    print("counting = {}".format(counting))
     if mode == 'random':
         d = random.choice(options)
     elif mode == 'interactive':
@@ -307,8 +306,19 @@ def choose(table,used,options,mode='random',counting=True):
             try:
                 keyed_in = input(prompt)
                 number = int(keyed_in)
+                command = None
             except:
-                print("{} is not a number between 1 and {}".format(keyed_in,k_max))
+                if controlled:
+                    command = keyed_in[0]
+                    if command in ['a','x']: # For "(a)dd one more line" or "e(x)tend"
+                        return used, None, command
+                    try:
+                        number = int(keyed_in[1:])
+                    except:
+                        print("{} is not a number between 1 and {}".format(keyed_in[1:],k_max))
+                else:
+                    command = None
+                    print("{} is not a number between 1 and {}".format(keyed_in,k_max))
         d = options[number-1]
         if counting:
             d['uses'] += 1
@@ -328,7 +338,7 @@ def choose(table,used,options,mode='random',counting=True):
     #if len(used) > 1:
     #    print(used[-1])
     print(textwrap.fill(line, width = 60, initial_indent="  > ", subsequent_indent="  > "))
-    return used, line
+    return used, line, command
 
 def choose_line(used,options,mode='random'):
     if mode == 'random':
