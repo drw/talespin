@@ -208,11 +208,49 @@ def add_line(filename, source, author, line, position, category=None, genre=None
     db = dataset.connect('sqlite:///{}'.format(filename))
     table = db[table_name]
     assert position in ['first','middle','last','any']
-    assert category in ['narration', 'description', 'dialogue', 'set-up', 'aphorism', None]
+    assert category in ['narration', 'description', 'dialogue', 'set-up', 'aphorism', 'meta', None]
     #assert genre in
     #assert tag in ['ribald', 'abstract', ]
     table.insert(dict(source = source, author = author, line = line, position = position, category = category, genre = genre, uses = 0, views = 0, usage = 0.0)) 
     print('Added "{}" from "{}" (by {}) with position "{}" and category "{}" and genre "{}".'.format(line, source, author, position, category, genre))
+
+def prompt_for(input_field):
+    try:
+        text = raw_input(input_field+": ")  # Python 2
+    except:
+        text = input(input_field+": ")  # Python 3
+    if text == "":
+        return None
+    return text
+
+def multiline_prompt_for(input_field):
+    text = " "
+    lines = []
+    while text not in ["", None]:
+        text = prompt_for("Next line of {}".format(input_field))
+        if text not in ["", None]:
+            lines.append(text)
+    return lines
+
+def add_line_i(filename=None, source=None, author=None, line=None, position=None, category=None, genre=None):
+    """Provides an interactive mode for adding lines, basically so that lines with characters that can
+    not easily be escaped may be handled by Python's input function."""
+    if filename is None:
+        filename = prompt_for('filename')
+    if source is None:
+        source = prompt_for('source')
+    if author is None:
+        author = prompt_for('author')
+    if line is None:
+        lines = multiline_prompt_for('lines')
+        line = '\n'.join(lines)
+    if position is None:
+        position = prompt_for('position')
+    if category is None:
+        category = prompt_for('category')
+    if genre is None:
+        genre = prompt_for('genre')
+    add_line(filename=filename,source=source,author=author,line=line,position=position,category=category,genre=genre)
 
 def delete_line(filename, line):
     import os.path
