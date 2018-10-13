@@ -135,15 +135,20 @@ concluding_lines = [("Peter Pan","""Our last glimpse of her shows her at the win
 ("A Princess of Mars", """I believe that they are waiting there for me, and something tells me that I shall soon know."""),
 ]
 
-
-def get_table(filename):
+def load_table(filename):
     import os.path
     db_exists = os.path.isfile(filename)
+    if not db_exists:
+        raise ValueError("No such database exists.")
     db = dataset.connect('sqlite:///{}'.format(filename))
     table = db[table_name]
-    if db_exists: # The database already exists.
+    return table
+
+def get_table(filename):
+    try:
+        table = load_table(filename)
         return table
-    else:
+    except ValueError as e:
         for line in first_lines:
             table.insert(dict(source = line[0], line = line[1], position = 'first', category = None, uses = 0, views = 0, usage = 0.0))
 
@@ -166,13 +171,7 @@ def get_table(filename):
         return table
 
 def view_table(filename):
-    import os.path
-    db_exists = os.path.isfile(filename)
-    if not db_exists:
-        print("No such database exists.")
-        return
-    db = dataset.connect('sqlite:///{}'.format(filename))
-    table = db[table_name]
+    table = load_table(filename)
     all_lines = table.find(order_by=['position', '-usage', '-uses', 'views'])
     position = ''
     position_count = defaultdict(int)
@@ -217,13 +216,7 @@ def add_line(filename, source, author, line, position, category=None, genre=None
     A correct way to do this is to escape a third level of quotes.
         > python tell.py add_line lines.db "Title" "Author" "'\"I think, therefore I think.\"'" middle dialgoue
     """
-    import os.path
-    db_exists = os.path.isfile(filename)
-    if not db_exists:
-        print("No such database exists.")
-        return
-    db = dataset.connect('sqlite:///{}'.format(filename))
-    table = db[table_name]
+    table = load_table(filename)
     assert position in ['first','middle','last','any']
     assert category in ['narration', 'description', 'dialogue', 'set-up', 'aphorism', 'meta', None]
     #assert genre in
@@ -269,14 +262,18 @@ def add_line_i(filename=None, source=None, author=None, line=None, position=None
         genre = prompt_for('genre')
     add_line(filename=filename,source=source,author=author,line=line,position=position,category=category,genre=genre)
 
+def edit_line(filename=None, line=None):
+    if filename is None:
+        filename = prompt_for('filename')
+    if line is None:
+        lines = multiline_prompt_for('lines')
+        line = '\n'.join(lines)
+    # Now the line has been specified; look it up and let the user edit any parameter.
+
+
+
 def delete_line(filename, line):
-    import os.path
-    db_exists = os.path.isfile(filename)
-    if not db_exists:
-        print("No such database exists.")
-        return
-    db = dataset.connect('sqlite:///{}'.format(filename))
-    table = db[table_name]
+    table = load_table(filename)
     if table.delete(line=line):
         print("found and deleted line={}".format(line))
     else:
@@ -289,13 +286,7 @@ def unadd_line(filename, source, author, line, position=None, category=None, gen
     delete_line(filename, line)
 
 def delete_by_source(filename, source):
-    import os.path
-    db_exists = os.path.isfile(filename)
-    if not db_exists:
-        print("No such database exists.")
-        return
-    db = dataset.connect('sqlite:///{}'.format(filename))
-    table = db[table_name]
+    table = load_table(filename)
     first = table.find_one(source=source)
     if first is not None:
     #    print("Here, we would be attempting to delete {} which is the first line with source = {}".format(first['line'], source))
@@ -411,7 +402,7 @@ def print_story(used):
     print(textwrap.fill(used[-1], 60, initial_indent = "    ")+"\n")
 
 def random_story():
-    table = get_table(db_file)
+    table = load_table(db_file)
     initial_lines = list(table.find(position=['first','any']) )
     first_line = random.choice(initial_lines)['line']
     used = [first_line]
@@ -439,7 +430,7 @@ def extend_story(table,used,view_limit,counting,new,controlled):
 
 def interactive(counting=True,new=False,controlled=False):
     command = None
-    table = get_table(db_file)
+    table = load_table(db_file)
     first_median, middle_median, last_median, any_median = stats(table)
     if new:
         initial_lines = list(table.find(position=['first','any'],views=[0,1,2,3]) )
