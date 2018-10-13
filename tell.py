@@ -1,6 +1,6 @@
 import os, sys, re, fire, textwrap, dataset
 from collections import defaultdict
-import random
+import random, statistics
 from pprint import pprint
 
 db_file = "/Users/drw/code/talespin/lines.db"
@@ -190,6 +190,23 @@ def view_table(filename):
 
     print("---------------\nThere are a total of {} lines in {}, with a first/middle/last/any breakdown of {}/{}/{}/{}.".format(line_count,filename,position_count['first'],position_count['middle'],position_count['last'],position_count['any']))
     pprint(dict(genre_count))
+
+def median_view(lines):
+    return statistics.median([x['views'] for x in lines])
+
+def stats(table):
+    first_lines = list(table.find(position=['first']) )
+    first_median = median_view(first_lines)
+
+    middle_lines = list(table.find(position=['middle']) )
+    middle_median = median_view(middle_lines)
+
+    last_lines = list(table.find(position=['last']) )
+    last_median = median_view(last_lines)
+
+    any_lines = list(table.find(position=['any']) )
+    any_median = median_view(any_lines)
+    return first_median, middle_median, last_median, any_median
 
 def add_line(filename, source, author, line, position, category=None, genre=None):
     """The tricky thing about using this function from the command line is that 
@@ -410,21 +427,42 @@ def random_story():
     used.append(conclusion)
     print_story(used)
 
-def interactive(counting=True):
-    table = get_table(db_file)
-    initial_lines = list(table.find(position=['first','any']) )
-    used, _ = choose(table, [], random.sample(initial_lines,5), 'interactive', counting)
+def extend_story(table,used,view_limit,counting,new,controlled):
+    if new:
+        middle_lines = [d for d in list(table.find(position=['middle','any'],views=[0,1,2,3]) ) if d['line'] not in used]
+    else:
+        middle_lines = [d for d in list(table.find(position=['middle','any']) ) if d['line'] not in used and d['views'] <= view_limit]
+    used, chosen_dict, command = choose(table, used, random.sample(middle_lines,6), 'interactive', counting, controlled)
+    return used, chosen_dict, command
 
-    while random.random() > 0.3 or len(used) < 3:
-        middle_lines = [d for d in list(table.find(position=['middle','any']) ) if d['line'] not in used] # This seems not to be preventing repetitions.
-        used, chosen_dict = choose(table, used, random.sample(middle_lines,6), 'interactive', counting)
+    # [ ] Where is chosen_dict used and can it be deleted?
+
+def interactive(counting=True,new=False,controlled=False):
+    command = None
+    table = get_table(db_file)
+    first_median, middle_median, last_median, any_median = stats(table)
+    if new:
+        initial_lines = list(table.find(position=['first','any'],views=[0,1,2,3]) )
+    else:
+        initial_lines = list(table.find(position=['first','any']) )
+    used, _, _ = choose(table, [], random.sample(initial_lines,7), 'interactive', counting)
+
+    while command != 'q' and (random.random() > 0.3 or len(used) < 3):
+        used, _, command = extend_story(table,used,middle_median,counting,new,controlled)
 
     final_lines = list(table.find(position=['last','any']) )
-    used, _ = choose(table, used, random.sample(final_lines,7), 'interactive', counting)
+    terminate = False
+    while not terminate:
+        used, _, command = choose(table, used, random.sample(final_lines,7), 'interactive', counting, controlled)
+        if command in ['a','x']:
+            used, _, command = extend_story(table,used,counting,new,controlled)
+        else:
+            terminate = True
+
     print_story(used)
 
-def i(counting=True):
-    interactive(counting)
+def i(counting=True,new=False,controlled=False):
+    interactive(counting,new,controlled)
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:
