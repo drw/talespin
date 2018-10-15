@@ -171,6 +171,20 @@ def get_table(filename):
         
         return table
 
+def view_usage(filename):
+    """Print usage by author, aggregated over all of the author's lines."""
+    db = dataset.connect('sqlite:///{}'.format(filename))
+    result = db.query('SELECT SUM(uses) all_uses, SUM(views) all_views, author FROM talespin_lines GROUP BY author')
+    usage_by_author = {}
+    views_by_author = {}
+    for row in result:
+        usage_by_author[row['author']] = row['all_uses']/(row['all_views'] + 1)
+        views_by_author[row['author']] = row['all_views']
+    import operator
+    sorted_usage = sorted(usage_by_author.items(), key=operator.itemgetter(1))
+    for author,usage in sorted_usage:
+        print("{:<20.20} {:<4.3f} ({})".format(author, usage,views_by_author[author]))
+
 def view_table(filename):
     table = load_table(filename)
     all_lines = table.find(order_by=['position', '-usage', '-uses', 'views'])
