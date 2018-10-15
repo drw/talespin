@@ -2,6 +2,7 @@ import os, sys, re, fire, textwrap, dataset
 from collections import defaultdict
 import random, statistics
 from pprint import pprint
+from datetime import datetime
 
 db_file = "/Users/drw/code/talespin/lines.db"
 table_name = 'talespin_lines'
@@ -221,7 +222,8 @@ def add_line(filename, source, author, line, position, category=None, genre=None
     assert category in ['narration', 'description', 'dialogue', 'set-up', 'aphorism', 'meta', None]
     #assert genre in
     #assert tag in ['ribald', 'abstract', ]
-    table.insert(dict(source = source, author = author, line = line, position = position, category = category, genre = genre, uses = 0, views = 0, usage = 0.0)) 
+    today = datetime.now().strftime("%Y-%m-%d")
+    table.insert(dict(source = source, author = author, line = line, position = position, category = category, genre = genre, uses = 0, views = 0, usage = 0.0, added = today))
     print('Added "{}" from "{}" (by {}) with position "{}" and category "{}" and genre "{}".'.format(line, source, author, position, category, genre))
 
 def prompt_for(input_field):
