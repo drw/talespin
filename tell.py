@@ -171,19 +171,19 @@ def get_table(filename):
         
         return table
 
-def view_usage(filename):
-    """Print usage by author, aggregated over all of the author's lines."""
+def view_usage_by(filename,group):
+    """Print usage by a user-specified grouping field, aggregated over all of that group's lines."""
     db = dataset.connect('sqlite:///{}'.format(filename))
-    result = db.query('SELECT SUM(uses) all_uses, SUM(views) all_views, author FROM talespin_lines GROUP BY author')
-    usage_by_author = {}
-    views_by_author = {}
+    result = db.query('SELECT SUM(uses) all_uses, SUM(views) all_views, {} FROM talespin_lines GROUP BY {}'.format(group,group))
+    usage_by_group = {}
+    views_by_group = {}
     for row in result:
-        usage_by_author[row['author']] = row['all_uses']/(row['all_views'] + 1)
-        views_by_author[row['author']] = row['all_views']
+        usage_by_group[row[group]] = row['all_uses']/(row['all_views'] + 1)
+        views_by_group[row[group]] = row['all_views']
     import operator
-    sorted_usage = sorted(usage_by_author.items(), key=operator.itemgetter(1))
-    for author,usage in sorted_usage:
-        print("{:<20.20} {:<4.3f} ({})".format(author, usage,views_by_author[author]))
+    sorted_usage = sorted(usage_by_group.items(), key=operator.itemgetter(1))
+    for group,usage in sorted_usage:
+        print("{:<20.20} {:<4.3f} ({})".format(group, usage,views_by_group[group]))
 
 def view_table(filename):
     table = load_table(filename)
