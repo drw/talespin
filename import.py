@@ -10,6 +10,8 @@ def clean(d):
 
 db_filename = "/Users/drw/code/talespin/lines.db"
 csv_filename = "/Users/drw/code/talespin/quotes.csv"
+alternate_csv_filename = "/Users/drw/code/talespin/q.csv"
+assert csv_filename != alternate_csv_filename
 table_name = 'talespin_lines'
 
 #input_file = csv.DictReader(open(filename))
@@ -33,3 +35,4 @@ with open(csv_filename, "r", encoding='utf-8') as f:
         table.insert(d)
 
 print("SQLite database created from CSV file.")
+os.rename(csv_filename,alternate_csv_filename)
