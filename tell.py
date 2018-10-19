@@ -233,7 +233,7 @@ def add_line(filename, source, author, line, position, category=None, genre=None
     """
     table = load_table(filename)
     assert position in ['first','middle','last','any']
-    assert category in ['narration', 'description', 'dialogue', 'set-up', 'aphorism', 'meta', None]
+    assert category in ['narration', 'description', 'action', 'dialogue', 'set-up', 'aphorism', 'abstract', 'meta', 'meta-introduction', None]
     #assert genre in
     #assert tag in ['ribald', 'abstract', ]
     today = datetime.now().strftime("%Y-%m-%d")
