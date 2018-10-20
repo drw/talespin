@@ -444,7 +444,7 @@ def extend_story(table,used,view_limit,counting,new,controlled):
 
     # [ ] Where is chosen_dict used and can it be deleted?
 
-def interactive(counting=True,new=False,controlled=False):
+def interactive(counting=True,new=False,controlled=True):
     command = None
     table = load_table(db_file)
     first_median, middle_median, last_median, any_median = stats(table)
@@ -452,7 +452,7 @@ def interactive(counting=True,new=False,controlled=False):
         initial_lines = list(table.find(position=['first','any'],views=[0,1,2,3]) )
     else:
         initial_lines = list(table.find(position=['first','any']) )
-    used, _, _ = choose(table, [], random.sample(initial_lines,7), 'interactive', counting)
+    used, _, command = choose(table, [], random.sample(initial_lines,7), 'interactive', counting, controlled)
 
     while command != 'q' and (random.random() > 0.3 or len(used) < 3):
         used, _, command = extend_story(table,used,middle_median,counting,new,controlled)
@@ -468,7 +468,7 @@ def interactive(counting=True,new=False,controlled=False):
 
     print_story(used)
 
-def i(counting=True,new=False,controlled=False):
+def i(counting=True,new=False,controlled=True):
     interactive(counting,new,controlled)
 
 if __name__ == '__main__':
