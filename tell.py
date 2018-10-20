@@ -358,44 +358,8 @@ def choose(table,used,options,mode='random',counting=True,controlled=False):
 
     line = d['line']
     used.append(line)
-    # Print the first line and then the last couple:
-    #print(used[0])
-    #if len(used) > 2:
-    #    print(used[-2])
-    #if len(used) > 1:
-    #    print(used[-1])
     print(textwrap.fill(line, width = 60, initial_indent="  > ", subsequent_indent="  > "))
     return used, line, command
-
-def choose_line(used,options,mode='random'):
-    if mode == 'random':
-        tup = random.choice(options)
-    elif mode == 'interactive':
-        prompt = "Choose an option:\n"
-        for k,option in enumerate(options):
-            prompt += "{}) {}\n".format(k+1,option[1])
-        number = None
-        k_max = len(options)
-        while number not in range(1,k_max+1):
-            try:
-                keyed_in = input(prompt)
-                number = int(keyed_in)
-            except:
-                print("{} is not a number between 1 and {}".format(keyed_in,k_max))
-        tup = options[number-1]
-    else:
-        raise ValueError("choose_line has not been programmed to handle mode {} yet.".format(mode))
-
-    line = tup[1]
-    used.append(line)
-    # Print the first line and then the last couple:
-    #print(used[0])
-    #if len(used) > 2:
-    #    print(used[-2])
-    #if len(used) > 1:
-    #    print(used[-1])
-    print(textwrap.fill(line, width = 60, initial_indent="  > ", subsequent_indent="  > "))
-    return used, tup
 
 def build_paragraph(sentences):
     paragraph = ""
@@ -409,10 +373,7 @@ def build_paragraph(sentences):
 def print_story(used):
     print("The finished story:\n")
     print(textwrap.fill(used[0], 60, initial_indent = "    ") +"\n")
-    #paragraph = ""
-    #for line in used[1:-1]:
-    #    paragraph += line.strip() + " "
-    #print(textwrap.fill(paragraph,60, initial_indent = "    ")+"\n")
+
     sentences = used[1:-1] 
     while len(sentences) > 0:
         paragraph, sentences = build_paragraph(sentences)
