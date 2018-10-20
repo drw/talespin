@@ -427,8 +427,8 @@ def interactive(counting=True,new=False,controlled=True):
     terminate = False
     while not terminate:
         used, _, command = choose(table, used, random.sample(final_lines,7), 'interactive', counting, controlled)
-        if command in ['a','x']:
-            used, _, command = extend_story(table,used,counting,new,controlled)
+        if command in ['a','x']: # Add another middle line rather than one of the offered ending lines.
+            used, _, command = extend_story(table,used,middle_median,counting,new,controlled)
         else:
             terminate = True
 
