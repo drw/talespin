@@ -336,6 +336,9 @@ def choose(table,used,options,mode='random',counting=True,controlled=False):
                     command = keyed_in[0]
                     if command in ['a','x']: # For "(a)dd one more line" or "e(x)tend"
                         return used, None, command
+                    elif command in ['b']: # meaning to take this beginning line but also
+                        # come (b)ack for another
+                        command = 'b' # This elif is not really necessary, actually.
                     try:
                         number = int(keyed_in[1:])
                     except:
@@ -453,6 +456,8 @@ def interactive(counting=True,new=False,controlled=True):
     else:
         initial_lines = list(table.find(position=['first','any']) )
     used, _, command = choose(table, [], random.sample(initial_lines,7), 'interactive', counting, controlled)
+    if command == 'b':
+        used, _, _ = choose(table, used, random.sample(initial_lines,7), 'interactive', counting)
 
     while command != 'q' and (random.random() > 0.3 or len(used) < 3):
         used, _, command = extend_story(table,used,middle_median,counting,new,controlled)
