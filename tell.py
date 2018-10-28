@@ -403,7 +403,7 @@ def extend_story(table,used,view_limit,counting,new,controlled):
         middle_lines = [d for d in list(table.find(position=['middle','any'],views=[0,1,2,3]) ) if d['line'] not in used]
     else:
         middle_lines = [d for d in list(table.find(position=['middle','any']) ) if d['line'] not in used and d['views'] <= view_limit]
-    used, chosen_dict, command = choose(table, used, random.sample(middle_lines,6), 'interactive', counting, controlled)
+    used, chosen_dict, command = choose(table, used, random.sample(middle_lines,10), 'interactive', counting, controlled)
     return used, chosen_dict, command
 
     # [ ] Where is chosen_dict used and can it be deleted?
@@ -416,9 +416,9 @@ def interactive(counting=True,new=False,controlled=True):
         initial_lines = list(table.find(position=['first','any'],views=[0,1,2,3]) )
     else:
         initial_lines = list(table.find(position=['first','any']) )
-    used, _, command = choose(table, [], random.sample(initial_lines,7), 'interactive', counting, controlled)
+    used, _, command = choose(table, [], random.sample(initial_lines,9), 'interactive', counting, controlled)
     if command == 'b':
-        used, _, _ = choose(table, used, random.sample(initial_lines,7), 'interactive', counting)
+        used, _, _ = choose(table, used, random.sample(initial_lines,9), 'interactive', counting)
 
     while command != 'q' and (random.random() > 0.3 or len(used) < 3):
         used, _, command = extend_story(table,used,middle_median,counting,new,controlled)
