@@ -400,7 +400,7 @@ def random_story():
 
 def extend_story(table,used,view_limit,counting,new,controlled):
     if new:
-        middle_lines = [d for d in list(table.find(position=['middle','any'],views=[0,1,2,3]) ) if d['line'] not in used]
+        middle_lines = [d for d in list(table.find(position=['middle','any'],views=[0,1,2,3,4,5,6,7]) ) if d['line'] not in used]
     else:
         middle_lines = [d for d in list(table.find(position=['middle','any']) ) if d['line'] not in used and d['views'] <= view_limit]
     used, chosen_dict, command = choose(table, used, random.sample(middle_lines,10), 'interactive', counting, controlled)
@@ -410,7 +410,7 @@ def extend_story(table,used,view_limit,counting,new,controlled):
 
 def fetch_intro_lines(table,used,new=False):
     if new:
-        initial_lines = list(table.find(position=['first','any'],views=[0,1,2,3]) )
+        initial_lines = list(table.find(position=['first','any'],views=[0,1,2,3,4,5,6,7]) )
     else:
         initial_lines = list(table.find(position=['first','any']) )
     filtered = [l for l in initial_lines if l not in used]
