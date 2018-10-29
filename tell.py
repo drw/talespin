@@ -311,7 +311,7 @@ def delete_by_source(filename, source):
             return
     print("Unable to find line for source = {}".format(source))
 
-def choose(table,used,options,mode='random',counting=True,controlled=False):
+def choose(table,used,options,mode='random',counting=True,controlled=False,full_display=False):
     """Choose among dicts from the database and update
     the view/use counts appropriately for interactive choosing, 
     unless counting = False."""
@@ -358,7 +358,10 @@ def choose(table,used,options,mode='random',counting=True,controlled=False):
 
     line = d['line']
     used.append(line)
-    print(textwrap.fill(line, width = 60, initial_indent="  > ", subsequent_indent="  > "))
+    if full_display:
+        print_story(used)
+    else:
+        print(textwrap.fill(line, width = 60, initial_indent="  > ", subsequent_indent="  > "))
     return used, line, command
 
 def build_paragraph(sentences):
@@ -371,7 +374,6 @@ def build_paragraph(sentences):
     return paragraph, sentences
 
 def print_story(used):
-    print("The finished story:\n")
     print(textwrap.fill(used[0], 60, initial_indent = "    ") +"\n")
 
     sentences = used[1:-1] 
@@ -403,7 +405,7 @@ def extend_story(table,used,view_limit,counting,new,controlled):
         middle_lines = [d for d in list(table.find(position=['middle','any'],views=[0,1,2,3,4,5,6,7]) ) if d['line'] not in used]
     else:
         middle_lines = [d for d in list(table.find(position=['middle','any']) ) if d['line'] not in used and d['views'] <= view_limit]
-    used, chosen_dict, command = choose(table, used, random.sample(middle_lines,10), 'interactive', counting, controlled)
+    used, chosen_dict, command = choose(table, used, random.sample(middle_lines,10), 'interactive', counting, controlled, full_display = True)
     return used, chosen_dict, command
 
     # [ ] Where is chosen_dict used and can it be deleted?
@@ -439,6 +441,7 @@ def interactive(counting=True,new=False,controlled=True):
         else:
             terminate = True
 
+    print("The finished story:\n")
     print_story(used)
 
 def i(counting=True,new=False,controlled=True):
