@@ -410,9 +410,9 @@ def extend_story(table,used,view_limit,counting,new,controlled):
 
 def fetch_lines(table,positions,used,new=False):
     if new:
-        initial_lines = list(table.find(position=['first','any'],views=[0,1,2,3,4,5,6,7]) )
+        initial_lines = list(table.find(position=positions,views=[0,1,2,3,4,5,6,7]) )
     else:
-        initial_lines = list(table.find(position=['first','any']) )
+        initial_lines = list(table.find(position=positions) )
     filtered = [l for l in initial_lines if l not in used]
     return filtered
 
@@ -429,12 +429,13 @@ def interactive(counting=True,new=False,controlled=True):
     while command != 'q' and (random.random() > 0.3 or len(used) < 3):
         used, _, command = extend_story(table,used,middle_median,counting,new,controlled)
 
-    final_lines = list(table.find(position=['last','any']) )
+    final_lines = fetch_lines(table, ['last','any'], used, new)
     terminate = False
     while not terminate:
         used, _, command = choose(table, used, random.sample(final_lines,7), 'interactive', counting, controlled)
         if command in ['a','x']: # Add another middle line rather than one of the offered ending lines.
             used, _, command = extend_story(table,used,middle_median,counting,new,controlled)
+            final_lines = fetch_lines(table, ['last','any'], used, new)
         else:
             terminate = True
 
