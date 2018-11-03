@@ -1,7 +1,7 @@
 import os, dataset, datafreeze
 
-filename = "/Users/drw/code/talespin/lines.db"
-alternate_filename = "/Users/drw/code/talespin/l.db"
+filename = "/Users/drw/code/talespin/lines.sqlite"
+alternate_filename = "/Users/drw/code/talespin/l.sqlite"
 assert filename != alternate_filename
 table_name = 'talespin_lines'
 

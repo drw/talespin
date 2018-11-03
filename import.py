@@ -8,7 +8,7 @@ def clean(d):
     d['views'] = int(d['views'])
     d['usage'] = float(d['usage'])
 
-db_filename = "/Users/drw/code/talespin/lines.db"
+db_filename = "/Users/drw/code/talespin/lines.sqlite"
 csv_filename = "/Users/drw/code/talespin/quotes.csv"
 alternate_csv_filename = "/Users/drw/code/talespin/q.csv"
 assert csv_filename != alternate_csv_filename

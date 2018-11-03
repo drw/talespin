@@ -4,7 +4,7 @@ import random, statistics
 from pprint import pprint
 from datetime import datetime
 
-db_file = "/Users/drw/code/talespin/lines.db"
+db_file = "/Users/drw/code/talespin/lines.sqlite"
 table_name = 'talespin_lines'
 
 first_lines = [ ("The Time Machine","""The Time Traveller (for so it will be convenient to speak of him) was expounding a recondite matter to us. """),
@@ -224,12 +224,12 @@ def stats(table):
 
 def add_line(filename, source, author, line, position, category=None, genre=None):
     """The tricky thing about using this function from the command line is that 
-        > python tell.py add_line lines.db "Title" "Author" "'I think, therefore I think.'" middle dialgoue
+        > python tell.py add_line lines.sqlite "Title" "Author" "'I think, therefore I think.'" middle dialgoue
     gets misinterpreted since bash seems to eat the outer quotes, and the fire module eats the
     inner quotes.
     
     A correct way to do this is to escape a third level of quotes.
-        > python tell.py add_line lines.db "Title" "Author" "'\"I think, therefore I think.\"'" middle dialgoue
+        > python tell.py add_line lines.sqlite "Title" "Author" "'\"I think, therefore I think.\"'" middle dialgoue
     """
     table = load_table(filename)
     assert position in ['first','middle','last','any']
