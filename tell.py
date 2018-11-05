@@ -311,12 +311,16 @@ def delete_by_source(filename, source):
             return
     print("Unable to find line for source = {}".format(source))
 
+def extract_numbers(s):
+    candidates = s.split(',')
+    return [int(c) for c in candidates]
+
 def choose(table,used,options,mode='random',counting=True,controlled=False,full_display=False):
     """Choose among dicts from the database and update
     the view/use counts appropriately for interactive choosing, 
     unless counting = False."""
     if mode == 'random':
-        d = random.choice(options)
+        ds = [random.choice(options)]
     elif mode == 'interactive':
         prompt = "Choose an option:\n"
         for k,option in enumerate(options):
@@ -324,12 +328,12 @@ def choose(table,used,options,mode='random',counting=True,controlled=False,full_
             if counting:
                 option['views'] += 1
             table.update(option, ['line'])
-        number = None
         k_max = len(options)
-        while number not in range(1,k_max+1):
+        numbers = []
+        while len(numbers) == 0 or not all(number in range(1,k_max+1) for number in numbers):
             try:
                 keyed_in = input(prompt)
-                number = int(keyed_in)
+                numbers = extract_numbers(keyed_in)
                 command = None
             except:
                 if controlled:
@@ -340,24 +344,29 @@ def choose(table,used,options,mode='random',counting=True,controlled=False,full_
                         # come (b)ack for another
                         command = 'b' # This elif is not really necessary, actually.
                     try:
-                        number = int(keyed_in[1:])
+                        numbers = extract_numbers(keyed_in[1:])
                     except:
-                        print("{} is not a number between 1 and {}".format(keyed_in[1:],k_max))
+                        print("{} is not a series of numbers between 1 and {}".format(keyed_in[1:],k_max))
                 else:
                     command = None
-                    print("{} is not a number between 1 and {}".format(keyed_in,k_max))
-        d = options[number-1]
-        if counting:
-            d['uses'] += 1
-            table.update(d, ['line'])
-            for option in options:
-                option['usage'] = (option['uses']+0.0)/option['views']
-                table.update(option, ['line'])
+                    print("{} is not a series of numbers between 1 and {}".format(keyed_in,k_max))
+
+        ds = []
+        for number in numbers:
+            d = options[number-1]
+            ds.append(d)
+            if counting:
+                d['uses'] += 1
+                table.update(d, ['line'])
+                for option in options:
+                    option['usage'] = (option['uses']+0.0)/option['views']
+                    table.update(option, ['line'])
     else:
         raise ValueError("choose has not been programmed to handle mode {} yet.".format(mode))
 
-    line = d['line']
-    used.append(line)
+    for d in ds:
+        line = d['line']
+        used.append(line)
     if full_display:
         print_story(used)
     else:
