@@ -301,6 +301,10 @@ def unadd_line(filename, source, author, line, position=None, category=None, gen
     easily undone."""
     delete_line(filename, line)
 
+def unadd_line_i(filename, source, author, line, position=None, category=None, genre=None):
+    """Convenience function aliasing to unadd_line."""
+    unadd_line(filename, source, author, line, position, category, genre)
+
 def delete_by_source(filename, source):
     table = load_table(filename)
     first = table.find_one(source=source)
