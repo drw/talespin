@@ -368,14 +368,13 @@ def choose(table,used,options,mode='random',counting=True,controlled=False,full_
     else:
         raise ValueError("choose has not been programmed to handle mode {} yet.".format(mode))
 
-    for d in ds:
-        line = d['line']
-        used.append(line)
+    lines = [d['line'] for d in ds]
+    used += lines
     if full_display:
         print_story(used)
     else:
-        print(textwrap.fill(line, width = 60, initial_indent="  > ", subsequent_indent="  > "))
-    return used, line, command
+        print(textwrap.fill('\n'.join(lines), width = 60, initial_indent="  > ", subsequent_indent="  > "))
+    return used, ds, command
 
 def build_paragraph(sentences):
     paragraph = ""
@@ -418,8 +417,8 @@ def extend_story(table,used,view_limit,counting,new,controlled):
         middle_lines = [d for d in list(table.find(position=['middle','any'],views=[0,1,2,3,4,5,6,7]) ) if d['line'] not in used]
     else:
         middle_lines = [d for d in list(table.find(position=['middle','any']) ) if d['line'] not in used and d['views'] <= view_limit]
-    used, chosen_dict, command = choose(table, used, random.sample(middle_lines,10), 'interactive', counting, controlled, full_display = True)
-    return used, chosen_dict, command
+    used, chosen_dicts, command = choose(table, used, random.sample(middle_lines,10), 'interactive', counting, controlled, full_display = True)
+    return used, command
 
     # [ ] Where is chosen_dict used and can it be deleted?
 
@@ -442,14 +441,14 @@ def interactive(counting=True,new=False,controlled=True):
         used, _, _ = choose(table, used, random.sample(initial_lines,9), 'interactive', counting)
 
     while command != 'q' and (random.random() > 0.3 or len(used) < 3):
-        used, _, command = extend_story(table,used,middle_median,counting,new,controlled)
+        used, command = extend_story(table,used,middle_median,counting,new,controlled)
 
     final_lines = fetch_lines(table, ['last','any'], used, new)
     terminate = False
     while not terminate:
         used, _, command = choose(table, used, random.sample(final_lines,7), 'interactive', counting, controlled)
         if command in ['a','x']: # Add another middle line rather than one of the offered ending lines.
-            used, _, command = extend_story(table,used,middle_median,counting,new,controlled)
+            used, command = extend_story(table,used,middle_median,counting,new,controlled)
             final_lines = fetch_lines(table, ['last','any'], used, new)
         else:
             terminate = True
