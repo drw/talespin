@@ -342,7 +342,7 @@ def choose(table,used,options,mode='random',counting=True,controlled=False,full_
             except:
                 if controlled:
                     command = keyed_in[0]
-                    if command in ['a','x']: # For "(a)dd one more line" or "e(x)tend"
+                    if command in ['a','x','q']: # For "(a)dd one more line" or "e(x)tend"
                         return used, None, command
                     elif command in ['b']: # meaning to take this beginning line but also
                         # come (b)ack for another
