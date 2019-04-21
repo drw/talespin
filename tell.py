@@ -422,6 +422,17 @@ def extend_story(table,used,view_limit,counting,new,controlled):
 
     # [ ] Where is chosen_dict used and can it be deleted?
 
+def extend_story_hand(table,persistent_hand,hand,used,view_limit,counting,new,controlled):
+    """This is a version of the extend_story function for adding lines to the story, which supports persistent-hand mode."""
+    if persistent_hand:
+        options = hand
+    elif new:
+        options = random.sample([d for d in list(table.find(position=['middle','any'],views=[0,1,2,3,4,5,6,7]) ) if d['line'] not in used], 10)
+    else:
+        options = random.sample([d for d in list(table.find(position=['middle','any']) ) if d['line'] not in used and d['views'] <= view_limit], 10)
+    used, chosen_dicts, command = choose(table, used, options, 'interactive', counting, controlled, full_display = True)
+    return used, chosen_dicts, command
+
 def fetch_lines(table,positions,used,new=False):
     if new:
         initial_lines = list(table.find(position=positions,views=[0,1,2,3,4,5,6,7]) )
@@ -429,6 +440,59 @@ def fetch_lines(table,positions,used,new=False):
         initial_lines = list(table.find(position=positions) )
     filtered = [l for l in initial_lines if l not in used]
     return filtered
+
+def remove_from_hand(x,hand):
+    hand.remove(x)
+    return hand
+
+def draw_hand(table, persistent_hand=False, positions=[], hand=None, just_used=[], used=[], new=False):
+    lines = fetch_lines(table, positions, used, new)
+    if persistent_hand:
+        for x in just_used:
+            hand = remove_from_hand(x,hand)
+        hand += random.sample(lines, len(just_used))
+        return hand
+
+    if 'first' in positions and 'middle' in positions and 'last' in positions:
+        draw_count = 12
+    elif 'first' in positions:
+        draw_count = 9
+    elif 'last' in positions:
+        draw_count = 7
+    return random.sample(lines,draw_count)
+
+def interactive_hand(counting=True,new=False,controlled=True,persistent_hand=True):
+    command = None
+    table = load_table(db_file)
+    first_median, middle_median, last_median, any_median = stats(table)
+    if persistent_hand:
+        hand = draw_hand(table, False, ['first', 'middle', 'last', 'any'])
+    else:
+        hand = draw_hand(table, False, ['first','any'])
+    used, chosen_ones, command = choose(table, [], hand, 'interactive', counting, controlled)
+    if command == 'q':
+        print("Terminating...")
+        return
+    if command == 'b':
+        hand = draw_hand(table, persistent_hand, ['first', 'any'], hand, chosen_ones, used, new)
+        used, chosen_ones, _ = choose(table, used, hand, 'interactive', counting)
+
+    while command != 'q' and (random.random() > 0.3 or len(used) < 3):
+        hand = draw_hand(table, persistent_hand, ['middle','any'], hand, chosen_ones, used, new)
+        used, chosen_ones, command = extend_story_hand(table,persistent_hand,hand,used,middle_median,counting,new,controlled)
+
+    terminate = (command == 'q')
+    while not terminate:
+        hand = draw_hand(table, persistent_hand, ['last','any'], hand, chosen_ones, used, new)
+        used, chosen_ones, command = choose(table, used, hand, 'interactive', counting, controlled)
+        if command in ['a','x']: # Add another middle line rather than one of the offered ending lines.
+            hand = draw_hand(table, persistent_hand, ['last','any'], hand, [], used, new)
+            used, chosen_ones, command = extend_story_hand(table,persistent_hand,hand,used,middle_median,counting,new,controlled)
+        else:
+            terminate = True
+
+    print("The finished story:\n")
+    print_story(used)
 
 def interactive(counting=True,new=False,controlled=True):
     command = None
