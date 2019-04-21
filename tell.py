@@ -445,7 +445,7 @@ def remove_from_hand(x,hand):
     hand.remove(x)
     return hand
 
-def draw_hand(table, persistent_hand=False, positions=[], hand=None, just_used=[], used=[], new=False):
+def draw_hand(table, draw_count=None, persistent_hand=False, positions=[], hand=None, just_used=[], used=[], new=False):
     lines = fetch_lines(table, positions, used, new)
     if persistent_hand:
         for x in just_used:
@@ -453,40 +453,44 @@ def draw_hand(table, persistent_hand=False, positions=[], hand=None, just_used=[
         hand += random.sample(lines, len(just_used))
         return hand
 
-    if 'first' in positions and 'middle' in positions and 'last' in positions:
-        draw_count = 12
-    elif 'first' in positions:
-        draw_count = 9
-    elif 'last' in positions:
-        draw_count = 7
+    if draw_count is None:
+        if 'first' in positions and 'middle' in positions and 'last' in positions:
+            draw_count = 12
+        elif 'first' in positions:
+            draw_count = 9
+        elif 'last' in positions:
+            draw_count = 7
     return random.sample(lines,draw_count)
+
+def combine_hands(hand_1, hand_2):
+    return hand_1 + hand_2
 
 def interactive_hand(counting=True,new=False,controlled=True,persistent_hand=True):
     command = None
     table = load_table(db_file)
     first_median, middle_median, last_median, any_median = stats(table)
     if persistent_hand:
-        hand = draw_hand(table, False, ['first', 'middle', 'last', 'any'])
+        hand = draw_hand(table, 12, False, ['first', 'middle', 'last', 'any'])
     else:
-        hand = draw_hand(table, False, ['first','any'])
+        hand = draw_hand(table, None, False, ['first','any'])
     used, chosen_ones, command = choose(table, [], hand, 'interactive', counting, controlled)
     if command == 'q':
         print("Terminating...")
         return
     if command == 'b':
-        hand = draw_hand(table, persistent_hand, ['first', 'any'], hand, chosen_ones, used, new)
+        hand = draw_hand(table, None, persistent_hand, ['first', 'any'], hand, chosen_ones, used, new)
         used, chosen_ones, _ = choose(table, used, hand, 'interactive', counting)
 
     while command != 'q' and (random.random() > 0.3 or len(used) < 3):
-        hand = draw_hand(table, persistent_hand, ['middle','any'], hand, chosen_ones, used, new)
+        hand = draw_hand(table, None, persistent_hand, ['middle','any'], hand, chosen_ones, used, new)
         used, chosen_ones, command = extend_story_hand(table,persistent_hand,hand,used,middle_median,counting,new,controlled)
 
     terminate = (command == 'q')
     while not terminate:
-        hand = draw_hand(table, persistent_hand, ['last','any'], hand, chosen_ones, used, new)
+        hand = draw_hand(table, None, persistent_hand, ['last','any'], hand, chosen_ones, used, new)
         used, chosen_ones, command = choose(table, used, hand, 'interactive', counting, controlled)
         if command in ['a','x']: # Add another middle line rather than one of the offered ending lines.
-            hand = draw_hand(table, persistent_hand, ['last','any'], hand, [], used, new)
+            hand = draw_hand(table, None, persistent_hand, ['last','any'], hand, [], used, new)
             used, chosen_ones, command = extend_story_hand(table,persistent_hand,hand,used,middle_median,counting,new,controlled)
         else:
             terminate = True
