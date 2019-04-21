@@ -470,7 +470,9 @@ def interactive_hand(counting=True,new=False,controlled=True,persistent_hand=Tru
     table = load_table(db_file)
     first_median, middle_median, last_median, any_median = stats(table)
     if persistent_hand:
-        hand = draw_hand(table, 12, False, ['first', 'middle', 'last', 'any'])
+        hand_1 = draw_hand(table, 9, False, ['first', 'middle', 'last', 'any'])
+        hand_2 = draw_hand(table, 3, False, ['first'])
+        hand = combine_hands(hand_1, hand_2)
     else:
         hand = draw_hand(table, None, False, ['first','any'])
     used, chosen_ones, command = choose(table, [], hand, 'interactive', counting, controlled)
