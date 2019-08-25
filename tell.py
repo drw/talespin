@@ -4,7 +4,7 @@ import random, statistics
 from pprint import pprint
 from datetime import datetime
 
-db_file = "/Users/drw/code/talespin/lines.sqlite"
+db_filename = "/Users/drw/code/talespin/lines.sqlite"
 table_name = 'talespin_lines'
 
 first_lines = [ ("The Time Machine","""The Time Traveller (for so it will be convenient to speak of him) was expounding a recondite matter to us. """),
@@ -396,7 +396,7 @@ def print_story(used):
     print(textwrap.fill(used[-1], 60, initial_indent = "    ")+"\n")
 
 def random_story():
-    table = load_table(db_file)
+    table = load_table(db_filename)
     initial_lines = list(table.find(position=['first','any']) )
     first_line = random.choice(initial_lines)['line']
     used = [first_line]
@@ -467,7 +467,7 @@ def combine_hands(hand_1, hand_2):
 
 def interactive_hand(counting=True,new=False,controlled=True,persistent_hand=True):
     command = None
-    table = load_table(db_file)
+    table = load_table(db_filename)
     first_median, middle_median, last_median, any_median = stats(table)
     if persistent_hand:
         hand_1 = draw_hand(table, 9, False, ['first', 'middle', 'last', 'any'])
@@ -502,7 +502,7 @@ def interactive_hand(counting=True,new=False,controlled=True,persistent_hand=Tru
 
 def interactive(counting=True,new=False,controlled=True):
     command = None
-    table = load_table(db_file)
+    table = load_table(db_filename)
     first_median, middle_median, last_median, any_median = stats(table)
     initial_lines = fetch_lines(table, ['first','any'], [], new)
     used, _, command = choose(table, [], random.sample(initial_lines,9), 'interactive', counting, controlled)
