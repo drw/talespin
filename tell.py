@@ -343,6 +343,7 @@ def choose(table,used,options,cmds,mode='random',counting=True,controlled=False,
             prompt += "{}) {}\n".format(cmd['character'],cmd['description'])
         k_max = len(options)
         numbers = []
+        discarded_numbers = []
         while len(numbers) == 0 or not all(number in range(1,k_max+1) for number in numbers):
             try:
                 keyed_in = input(prompt)
@@ -352,7 +353,14 @@ def choose(table,used,options,cmds,mode='random',counting=True,controlled=False,
                 if controlled:
                     command = keyed_in[0]
                     if command in ['a','x','q']: # For "(a)dd one more line" or "e(x)tend"
-                        return used, None, command
+                        return used, None, [], command
+                    elif command in ['d']: # Discard the enumerated cards
+                        discarded_numbers = extract_numbers(keyed_in[1:])
+                        print("Discarding {}".format(discarded_numbers))
+                        numbers = []
+                        break # Break out of the loop since the loop condition does not search for this possibility.
+                        # [ ] Should the whole processing process be refactored to integrate choosing and hand
+                        # management?
                     elif command in ['b']: # meaning to take this beginning line but also
                         # come (b)ack for another
                         command = 'b' # This elif is not really necessary, actually.
@@ -364,16 +372,17 @@ def choose(table,used,options,cmds,mode='random',counting=True,controlled=False,
                     command = None
                     print("{} is not a series of numbers between 1 and {}".format(keyed_in,k_max))
 
-        ds = []
-        for number in numbers:
-            d = options[number-1]
-            ds.append(d)
+        ds = get_by_index(numbers,options)
+        for d in ds:
             if counting:
                 d['uses'] += 1
                 table.update(d, ['line'])
                 for option in options:
                     option['usage'] = (option['uses']+0.0)/option['views']
                     table.update(option, ['line'])
+        # [ ] Do something similar to this to update discard counts.
+        discarded_ds = get_by_index(discarded_numbers,options)
+
     else:
         raise ValueError("choose has not been programmed to handle mode {} yet.".format(mode))
 
@@ -383,7 +392,7 @@ def choose(table,used,options,cmds,mode='random',counting=True,controlled=False,
         print_story(used)
     else:
         print(textwrap.fill('\n'.join(lines), width = 60, initial_indent="  > ", subsequent_indent="  > "))
-    return used, ds, command
+    return used, ds, discarded_ds, command
 
 def build_paragraph(sentences):
     paragraph = ""
