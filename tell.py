@@ -393,14 +393,15 @@ def build_paragraph(sentences):
     return paragraph, sentences
 
 def print_story(used):
-    print(textwrap.fill(used[0], 60, initial_indent = "    ") +"\n")
+    if len(used) > 0:
+        print(textwrap.fill(used[0], 60, initial_indent = "    ") +"\n")
 
-    sentences = used[1:-1] 
-    while len(sentences) > 0:
-        paragraph, sentences = build_paragraph(sentences)
-        print(textwrap.fill(paragraph, 60, initial_indent = "    ")+"\n")
+        sentences = used[1:-1]
+        while len(sentences) > 0:
+            paragraph, sentences = build_paragraph(sentences)
+            print(textwrap.fill(paragraph, 60, initial_indent = "    ")+"\n")
 
-    print(textwrap.fill(used[-1], 60, initial_indent = "    ")+"\n")
+        print(textwrap.fill(used[-1], 60, initial_indent = "    ")+"\n")
 
 def random_story():
     table = load_table(db_filename)
