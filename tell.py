@@ -339,6 +339,8 @@ def choose(table,used,options,cmds,mode='random',counting=True,controlled=False,
             if counting:
                 option['views'] += 1
             table.update(option, ['line'])
+        for cmd in cmds:
+            prompt += "{}) {}\n".format(cmd['character'],cmd['description'])
         k_max = len(options)
         numbers = []
         while len(numbers) == 0 or not all(number in range(1,k_max+1) for number in numbers):
