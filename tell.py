@@ -319,7 +319,14 @@ def extract_numbers(s):
     candidates = s.split(',')
     return [int(c) for c in candidates]
 
-def choose(table,used,options,mode='random',counting=True,controlled=False,full_display=False):
+def get_by_index(indices,xs):
+    ds = []
+    for index in indices:
+        d = xs[index-1]
+        ds.append(d)
+    return ds
+
+def choose(table,used,options,cmds,mode='random',counting=True,controlled=False,full_display=False):
     """Choose among dicts from the database and update
     the view/use counts appropriately for interactive choosing, 
     unless counting = False."""
