@@ -431,17 +431,17 @@ def random_story():
     used.append(conclusion)
     print_story(used)
 
-def extend_story(table,used,view_limit,counting,new,controlled):
+def extend_story(table,used,cmds,view_limit,counting,new,controlled):
     if new:
         middle_lines = [d for d in list(table.find(position=['middle','any'],views=[0,1,2,3,4,5,6,7]) ) if d['line'] not in used]
     else:
         middle_lines = [d for d in list(table.find(position=['middle','any']) ) if d['line'] not in used and d['views'] <= view_limit]
-    used, chosen_dicts, command = choose(table, used, random.sample(middle_lines,10), 'interactive', counting, controlled, full_display = True)
+    used, chosen_dicts, discarded, command = choose(table, used, random.sample(middle_lines,10), cmds, 'interactive', counting, controlled, full_display = True)
     return used, command
 
     # [ ] Where is chosen_dict used and can it be deleted?
 
-def extend_story_hand(table,persistent_hand,hand,used,view_limit,counting,new,controlled):
+def extend_story_hand(table,persistent_hand,hand,used,cmds,view_limit,counting,new,controlled):
     """This is a version of the extend_story function for adding lines to the story, which supports persistent-hand mode."""
     if persistent_hand:
         options = hand
@@ -449,8 +449,8 @@ def extend_story_hand(table,persistent_hand,hand,used,view_limit,counting,new,co
         options = random.sample([d for d in list(table.find(position=['middle','any'],views=[0,1,2,3,4,5,6,7]) ) if d['line'] not in used], 10)
     else:
         options = random.sample([d for d in list(table.find(position=['middle','any']) ) if d['line'] not in used and d['views'] <= view_limit], 10)
-    used, chosen_dicts, command = choose(table, used, options, 'interactive', counting, controlled, full_display = True)
-    return used, chosen_dicts, command
+    used, chosen_dicts, discarded, command = choose(table, used, options, cmds, 'interactive', counting, controlled, full_display = True)
+    return used, chosen_dicts, discarded, command
 
 def fetch_lines(table,positions,used,new=False):
     if new:
@@ -494,25 +494,25 @@ def interactive_hand(counting=True,new=False,controlled=True,persistent_hand=Tru
         hand = combine_hands(hand_1, hand_2)
     else:
         hand = draw_hand(table, None, False, ['first','any'])
-    used, chosen_ones, command = choose(table, [], hand, 'interactive', counting, controlled)
+    used, chosen_ones, discarded_ones, command = choose(table, [], hand, cmds, 'interactive', counting, controlled)
     if command == 'q':
         print("Terminating...")
         return
     if command == 'b':
-        hand = draw_hand(table, None, persistent_hand, ['first', 'any'], hand, chosen_ones, used, new)
-        used, chosen_ones, _ = choose(table, used, hand, 'interactive', counting)
+        hand = draw_hand(table, None, persistent_hand, ['first', 'any'], hand, chosen_ones+discarded_ones, used, new)
+        used, chosen_ones, discarded_ones, command = choose(table, used, hand, cmds, 'interactive', counting)
 
     while command != 'q' and (random.random() > 0.3 or len(used) < 3):
-        hand = draw_hand(table, None, persistent_hand, ['middle','any'], hand, chosen_ones, used, new)
-        used, chosen_ones, command = extend_story_hand(table,persistent_hand,hand,used,middle_median,counting,new,controlled)
+        hand = draw_hand(table, None, persistent_hand, ['middle','any'], hand, chosen_ones+discarded_ones, used, new)
+        used, chosen_ones, discarded_ones, command = extend_story_hand(table, persistent_hand, hand, used, cmds, middle_median, counting, new, controlled)
 
     terminate = (command == 'q')
     while not terminate:
-        hand = draw_hand(table, None, persistent_hand, ['last','any'], hand, chosen_ones, used, new)
-        used, chosen_ones, command = choose(table, used, hand, 'interactive', counting, controlled)
+        hand = draw_hand(table, None, persistent_hand, ['last','any'], hand, chosen_ones+discarded_ones, used, new)
+        used, chosen_ones, discarded_ones, command = choose(table, used, hand, cmds, 'interactive', counting, controlled)
         if command in ['a','x']: # Add another middle line rather than one of the offered ending lines.
             hand = draw_hand(table, None, persistent_hand, ['last','any'], hand, [], used, new)
-            used, chosen_ones, command = extend_story_hand(table,persistent_hand,hand,used,middle_median,counting,new,controlled)
+            used, chosen_ones, discarded_ones, command = extend_story_hand(table, persistent_hand, hand, used, cmds, middle_median, counting, new, controlled)
         else:
             terminate = True
 
@@ -521,23 +521,24 @@ def interactive_hand(counting=True,new=False,controlled=True,persistent_hand=Tru
 
 def interactive(counting=True,new=False,controlled=True):
     command = None
+    cmds = get_cmds()
     table = load_table(db_filename)
     first_median, middle_median, last_median, any_median = stats(table)
     initial_lines = fetch_lines(table, ['first','any'], [], new)
-    used, _, command = choose(table, [], random.sample(initial_lines,9), 'interactive', counting, controlled)
+    used, _, _, command = choose(table, [], random.sample(initial_lines,9), cmds, 'interactive', counting, controlled)
     if command == 'b':
         initial_lines = fetch_lines(table, ['first','any'], used, new)
-        used, _, _ = choose(table, used, random.sample(initial_lines,9), 'interactive', counting)
+        used, _, _, _ = choose(table, used, random.sample(initial_lines,9), cmds, 'interactive', counting)
 
     while command != 'q' and (random.random() > 0.3 or len(used) < 3):
-        used, command = extend_story(table,used,middle_median,counting,new,controlled)
+        used, command = extend_story(table, used, cmds, middle_median, counting, new, controlled)
 
     final_lines = fetch_lines(table, ['last','any'], used, new)
     terminate = False
     while not terminate:
-        used, _, command = choose(table, used, random.sample(final_lines,7), 'interactive', counting, controlled)
+        used, _, _, command = choose(table, used, random.sample(final_lines,7), cmds, 'interactive', counting, controlled)
         if command in ['a','x']: # Add another middle line rather than one of the offered ending lines.
-            used, command = extend_story(table,used,middle_median,counting,new,controlled)
+            used, command = extend_story(table, used, cmds, middle_median, counting, new, controlled)
             final_lines = fetch_lines(table, ['last','any'], used, new)
         else:
             terminate = True
