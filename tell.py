@@ -240,6 +240,13 @@ def add_line(filename, source, author, line, position, category=None, genre=None
         > python tell.py add_line lines.sqlite "Title" "Author" "'\"I think, therefore I think.\"'" middle dialgoue
     """
     table = load_table(filename)
+    if source == 'None':
+        source = '' # The transformation from SQLite to CSV and back turns None values into empty strings, so
+        # they might as well just start out as empty strings.
+    if author == 'None':
+        author = ''
+    if category == 'None':
+        category = ''
     assert position in ['first','middle','last','any']
     assert category in ['narration', 'description', 'action', 'dialogue', 'set-up', 'aphorism', 'abstract', 'meta', 'meta-introduction', None]
     #assert genre in
