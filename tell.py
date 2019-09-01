@@ -136,6 +136,14 @@ concluding_lines = [("Peter Pan","""Our last glimpse of her shows her at the win
 ("A Princess of Mars", """I believe that they are waiting there for me, and something tells me that I shall soon know."""),
 ]
 
+def get_cmds():
+    cmds = [{'character': 'x', 'description': 'Extend the story by one line.'},
+            {'character': 'd', 'description': 'Discard cards (e.g.: "d 1,2,5,9").'},
+            {'character': 'b', 'description': 'Take this line but come (b)ack for another.'},
+            {'character': 'q', 'description': 'Quit'}]
+
+    return cmds
+
 def load_table(filename):
     import os.path
     db_exists = os.path.isfile(filename)
@@ -464,28 +472,34 @@ def remove_from_hand(x,hand):
     hand.remove(x)
     return hand
 
-def draw_hand(table, draw_count=None, persistent_hand=False, positions=[], hand=None, just_used=[], used=[], new=False):
+def draw_hand(table, draw_count=None, persistent_hand=False, positions=[], hand=[], just_used=[], used=[], new=False):
+    """At present, this removes the used cards from the hand and draws up to the specified hand size.
+    Thus, it makes sense to also pass it a list of cards to discard and discard them here."""
     lines = fetch_lines(table, positions, used, new)
     if persistent_hand:
+        old_hand = list(hand)
         for x in just_used:
-            hand = remove_from_hand(x,hand)
-        hand += random.sample(lines, len(just_used))
-        return hand
+            new_hand = remove_from_hand(x,old_hand)
+        new_hand += random.sample(lines, len(just_used))
+        return new_hand
 
     if draw_count is None:
         if 'first' in positions and 'middle' in positions and 'last' in positions:
-            draw_count = 12
+            new_draw_count = 12
         elif 'first' in positions:
-            draw_count = 9
+            new_draw_count = 9
         elif 'last' in positions:
-            draw_count = 7
-    return random.sample(lines,draw_count)
+            new_draw_count = 7
+    else:
+        new_draw_count = int(draw_count)
+    return random.sample(lines,new_draw_count)
 
 def combine_hands(hand_1, hand_2):
     return hand_1 + hand_2
 
 def interactive_hand(counting=True,new=False,controlled=True,persistent_hand=True):
     command = None
+    cmds = get_cmds()
     table = load_table(db_filename)
     first_median, middle_median, last_median, any_median = stats(table)
     if persistent_hand:
