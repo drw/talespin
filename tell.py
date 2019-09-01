@@ -168,15 +168,15 @@ def get_table(filename):
             table.insert(dict(source = line[0], line = line[1], position = 'middle', category = 'dialogue', uses = 0, views = 0, usage = 0.0))
 
         for line in ribald_lines:
-            table.insert(dict(source = line[0], line = line[1], position = 'middle', tag = 'ribald', uses = 0, views = 0, usage = 0.0))
+            table.insert(dict(source = line[0], line = line[1], position = 'middle', category = 'ribald', uses = 0, views = 0, usage = 0.0))
 
         for line in abstractions:
-            table.insert(dict(source = line[0], line = line[1], position = 'middle', tag = 'abstract', uses = 0, views = 0, usage = 0.0)) 
+            table.insert(dict(source = line[0], line = line[1], position = 'middle', category = 'abstract', uses = 0, views = 0, usage = 0.0))
             # Note that some abstractions are not middle-of-the-story stuff.
 
         for line in concluding_lines:
             table.insert(dict(source = line[0], line = line[1], position = 'last', category = None, uses = 0, views = 0, usage = 0.0))
-        
+
         return table
 
 def view_usage_by(filename,group):
@@ -243,7 +243,6 @@ def add_line(filename, source, author, line, position, category=None, genre=None
     assert position in ['first','middle','last','any']
     assert category in ['narration', 'description', 'action', 'dialogue', 'set-up', 'aphorism', 'abstract', 'meta', 'meta-introduction', None]
     #assert genre in
-    #assert tag in ['ribald', 'abstract', ]
     today = datetime.now().strftime("%Y-%m-%d")
     table.insert(dict(source = source, author = author, line = line, position = position, category = category, genre = genre, uses = 0, views = 0, usage = 0.0, added = today))
     print('Added "{}" from "{}" (by {}) with position "{}" and category "{}" and genre "{}".'.format(line, source, author, position, category, genre))
